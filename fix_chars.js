@@ -1,0 +1,13 @@
+﻿const fs = require('fs');
+let content = fs.readFileSync('app/page.tsx', 'utf-8');
+content = content.replace(/DiseA.o y FabricaciA3n/g, 'Diseño y Fabricación');
+content = content.replace(/impresiA3n/g, 'impresión');
+content = content.replace(/automatizaciA3n/g, 'automatización');
+content = content.replace(/mA.xima precisiA3n/g, 'máxima precisión');
+content = content.replace(/fabricA3/g, 'fabricó');
+content = content.replace(/precisiA3n/g, 'precisión');
+content = content.replace(/mejorA3/g, 'mejoró');
+content = content.replace(/tAccnicas/g, 'técnicas');
+content = content.replace(/diseA.o/g, 'diseño');
+content = content.replace(/fabricaciA3n/g, 'fabricación');
+fs.writeFileSync('app/page.tsx', content, 'utf-8');
