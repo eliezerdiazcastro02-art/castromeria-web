@@ -17,9 +17,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           <div className="col-span-2 lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <img src="/logo_badge.png" alt="Castromeria Icon" className="w-8 h-8 rounded-full shadow-sm border border-gray-200/60 opacity-90 hover:opacity-100 transition-opacity duration-300" />
-              <img src="/Castromeria_logo.png" alt="Castromeria Logo" className="h-5 md:h-7 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            <div className="flex items-center mb-6">
+              <img src="/Castromeria_logo.png" alt="Castromeria" className="h-6 md:h-7 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300" />
             </div>
             <p className="text-gray-500 text-sm max-w-xs leading-relaxed mb-4">
               Diseño, fabricación e ingeniería industrial en República Dominicana.

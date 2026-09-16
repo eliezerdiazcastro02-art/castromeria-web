@@ -46,9 +46,8 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl bg-white/70 backdrop-blur-xl border border-white/40 shadow-lg rounded-full px-6 py-3 flex items-center justify-between transition-all duration-500">
-        <Link href="/" onClick={() => window.scrollTo(0,0)} className="flex items-center gap-3 group relative z-10">
-          <img src="/logo_badge.png" alt="Castromeria Icon" className="w-8 h-8 md:w-9 md:h-9 rounded-full shadow-sm border border-gray-200/60 transition-transform duration-500 group-hover:scale-105" />
-          <img src="/Castromeria_logo.png" alt="Castromeria Logo" className="h-5 md:h-6 object-contain transition-transform duration-500 group-hover:scale-105" />
+        <Link href="/" onClick={() => window.scrollTo(0,0)} className="flex items-center group relative z-10">
+          <img src="/Castromeria_logo.png" alt="Castromeria" className="h-6 md:h-7 object-contain transition-transform duration-500 group-hover:scale-105" />
         </Link>
 
         {/* Desktop Navigation */}

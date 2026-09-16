@@ -4,24 +4,25 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
-import { useEffect, use } from "react";
+import { useEffect, use, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 const servicesData = {
   "fabricacion": {
     title: "Fabricación Avanzada",
     heroDesc: "Fabricación precisa, eficiente y a cualquier escala.",
     img: "/real_welding.jpg",
     details: [
-      "Mecanizado por arranque de viruta y abrasión",
-      "Trabajos grandes en tornería",
-      "Cortes a láser de precisión",
-      "Soldadura profesional y certificada",
-      "Fabricación de piezas en aceros",
-      "Fabricación de muebles en inoxidable",
-      "Estructuras y perfiles metálicos",
-      "Estructuras decorativas y arquitectónicas",
-      "Reparación y fabricación de moldes",
-      "Fabricación y reparación de ejes y engranajes",
-      "Fabricación de fixtures y dispositivos"
+      { name: "Mecanizado por arranque de viruta y abrasión", desc: "Procesos de torneado, fresado y rectificado para piezas con tolerancias exigentes en cualquier metal." },
+      { name: "Trabajos grandes en tornería", desc: "Capacidad para tornear piezas de gran diámetro y longitud con equipos CNC de alta potencia." },
+      { name: "Cortes a láser de precisión", desc: "Corte limpio y rápido en acero, aluminio e inoxidable con acabado listo para ensamblar." },
+      { name: "Soldadura profesional y certificada", desc: "Soldadura MIG, TIG y electrodo con personal certificado para estructuras críticas." },
+      { name: "Fabricación de piezas en aceros", desc: "Piezas a medida en acero al carbono, inoxidable y aleaciones especiales según plano." },
+      { name: "Fabricación de muebles en inoxidable", desc: "Mesas, estantes y mobiliario industrial en acero inoxidable 304/316 para uso alimenticio e industrial." },
+      { name: "Estructuras y perfiles metálicos", desc: "Diseño y fabricación de estructuras portantes, marcos y soportes para plantas industriales." },
+      { name: "Estructuras decorativas y arquitectónicas", desc: "Barandas, fachadas, pérgolas y elementos decorativos en metal con acabado premium." },
+      { name: "Reparación y fabricación de moldes", desc: "Moldes de inyección, soplado y compresión — reparamos los existentes o fabricamos nuevos." },
+      { name: "Fabricación y reparación de ejes y engranajes", desc: "Ejes, piñones y engranajes rectos o helicoidales mecanizados según especificaciones exactas." },
+      { name: "Fabricación de fixtures y dispositivos", desc: "Dispositivos de sujeción y posicionamiento para líneas de producción y ensamble." }
     ]
   },
   "diseno-industrial": {
@@ -29,12 +30,12 @@ const servicesData = {
     heroDesc: "De la idea al modelo 3D listo para fabricar.",
     img: "/cad_design.jpg",
     details: [
-      "Diseño de productos y componentes mecánicos",
-      "Modelado CAD 3D avanzado",
-      "Análisis de tolerancias y ajustes",
-      "Simulación de esfuerzos y resistencia",
-      "Optimización de diseños para manufactura (DFM)",
-      "Prototipado rápido virtual"
+      { name: "Diseño de productos y componentes mecánicos", desc: "Desarrollo completo de productos desde el concepto hasta los planos de manufactura." },
+      { name: "Modelado CAD 3D avanzado", desc: "Modelado paramétrico en SolidWorks y Fusion 360 con ensambles y despieces detallados." },
+      { name: "Análisis de tolerancias y ajustes", desc: "Verificamos que todas las piezas encajen perfectamente antes de fabricar." },
+      { name: "Simulación de esfuerzos y resistencia", desc: "Análisis FEA para garantizar que tu diseño resiste las cargas reales de operación." },
+      { name: "Optimización de diseños para manufactura (DFM)", desc: "Ajustamos tu diseño para que sea más fácil, rápido y económico de fabricar." },
+      { name: "Prototipado rápido virtual", desc: "Renders fotorrealistas y animaciones para validar el diseño antes de invertir en producción." }
     ]
   },
   "impresion-3d": {
@@ -42,11 +43,11 @@ const servicesData = {
     heroDesc: "Prototipos funcionales y piezas complejas, impresas en días.",
     img: "/laser_cutting_sparks.png",
     details: [
-      "Prototipado rápido de alta precisión",
-      "Impresión de piezas únicas y repuestos descontinuados",
-      "Fabricación con polímeros de ingeniería (ABS, PLA, PETG, Nylon)",
-      "Validación de ensambles antes de producción en masa",
-      "Creación de moldes maestros y modelos de fundición"
+      { name: "Prototipado rápido de alta precisión", desc: "Prototipos funcionales en 24-72 horas para validar forma, ajuste y función." },
+      { name: "Impresión de piezas únicas y repuestos descontinuados", desc: "Reproducimos piezas que ya no se fabrican a partir de muestra o plano." },
+      { name: "Fabricación con polímeros de ingeniería (ABS, PLA, PETG, Nylon)", desc: "Materiales de grado industrial para piezas que necesitan resistencia mecánica y térmica." },
+      { name: "Validación de ensambles antes de producción en masa", desc: "Imprimimos el ensamble completo para verificar que todo encaje antes de invertir en moldes." },
+      { name: "Creación de moldes maestros y modelos de fundición", desc: "Modelos impresos en 3D que sirven como referencia exacta para procesos de fundición." }
     ]
   },
   "anodizado-teflonado": {
@@ -54,12 +55,12 @@ const servicesData = {
     heroDesc: "Protección y acabado para piezas que deben durar.",
     img: "/anodizado_parts.png",
     details: [
-      "Anodizado duro para piezas de aluminio",
-      "Protección extrema contra la corrosión",
-      "Aumento de resistencia al desgaste mecánico",
-      "Teflonado industrial (PTFE) antiadherente",
-      "Reducción de fricción en componentes dinámicos",
-      "Acabados estéticos y funcionales de larga duración"
+      { name: "Anodizado duro para piezas de aluminio", desc: "Capa protectora de óxido controlado que multiplica la dureza superficial del aluminio." },
+      { name: "Protección extrema contra la corrosión", desc: "Tus piezas resisten ambientes salinos, húmedos y químicamente agresivos." },
+      { name: "Aumento de resistencia al desgaste mecánico", desc: "Superficie hasta 3 veces más dura que el aluminio sin tratar." },
+      { name: "Teflonado industrial (PTFE) antiadherente", desc: "Recubrimiento antiadherente y de baja fricción para componentes en movimiento." },
+      { name: "Reducción de fricción en componentes dinámicos", desc: "Ideal para guías, pistones y piezas deslizantes que necesitan movimiento suave." },
+      { name: "Acabados estéticos y funcionales de larga duración", desc: "Colores y acabados que no se pelan ni se desgastan con el uso." }
     ]
   },
   "asesoria-tecnica": {
@@ -67,11 +68,11 @@ const servicesData = {
     heroDesc: "Te ayudamos a tomar las mejores decisiones técnicas para tu proyecto.",
     img: "/asesoria_tecnica.png",
     details: [
-      "Asesoramiento integral de proyectos industriales",
-      "Diseño e implementación de automatización",
-      "Optimización de procesos de manufactura",
-      "Servicios profesionales de pintura industrial",
-      "Evaluación de viabilidad técnica y económica"
+      { name: "Asesoramiento integral de proyectos industriales", desc: "Te acompañamos desde la planificación hasta la puesta en marcha de tu proyecto." },
+      { name: "Diseño e implementación de automatización", desc: "Sistemas PLC, sensores y actuadores para automatizar procesos repetitivos." },
+      { name: "Optimización de procesos de manufactura", desc: "Analizamos tu línea de producción y encontramos cuellos de botella para mejorar eficiencia." },
+      { name: "Servicios profesionales de pintura industrial", desc: "Pintura electrostática, epóxica y de alta temperatura con acabado uniforme." },
+      { name: "Evaluación de viabilidad técnica y económica", desc: "Antes de invertir, te decimos si tu proyecto es factible y cuánto costará." }
     ]
   },
   "facilidades": {
@@ -79,11 +80,11 @@ const servicesData = {
     heroDesc: "Tu planta organizada, segura y lista para producir.",
     img: "/grua_spider_1.png",
     details: [
-      "Diseño de layouts de planta y flujos de trabajo",
-      "Servicios de movilidad y reubicación de maquinaria",
-      "Implementación de metodologías 5S y mejora continua",
-      "Diseño de sistemas de almacenamiento industrial seguro",
-      "Adaptación de espacios para nuevas líneas de producción"
+      { name: "Diseño de layouts de planta y flujos de trabajo", desc: "Optimizamos la distribución de tu planta para reducir tiempos y movimientos innecesarios." },
+      { name: "Servicios de movilidad y reubicación de maquinaria", desc: "Movemos equipos pesados de forma segura con grúas y plataformas especializadas." },
+      { name: "Implementación de metodologías 5S y mejora continua", desc: "Organizamos tu taller para que cada herramienta tenga su lugar y todo fluya mejor." },
+      { name: "Diseño de sistemas de almacenamiento industrial seguro", desc: "Racks, estanterías y sistemas de almacenaje diseñados para tu inventario específico." },
+      { name: "Adaptación de espacios para nuevas líneas de producción", desc: "Preparamos tu planta con las instalaciones eléctricas, neumáticas y estructurales que necesitas." }
     ]
   }
 };
@@ -99,6 +100,8 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
   if (!service) {
     notFound();
   }
+
+  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
 
   const appleSpring = { type: "spring", bounce: 0, duration: 0.8 } as const;
 
@@ -128,35 +131,108 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
         </motion.div>
       </section>
 
-      {/* Details Grid Section */}
-      <section className="py-20 px-6 max-w-5xl mx-auto">
-        <motion.div 
+      {/* Showcase Panels - Mattered Style */}
+      <section className="py-20 px-0 md:px-0">
+        <motion.h2 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={appleSpring}
+          className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center px-6"
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-16 text-center">Lo que podemos hacer</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {service.details.map((detail, idx) => (
-              <motion.div 
+          Lo que podemos hacer
+        </motion.h2>
+        
+        <motion.div layout className="space-y-2">
+          {service.details.map((detail, idx) => {
+            // Alternate gradient directions for visual variety
+            const overlays = [
+              "bg-gradient-to-r from-black/70 via-black/40 to-transparent",
+              "bg-gradient-to-l from-black/70 via-black/40 to-transparent",
+              "bg-gradient-to-t from-black/60 via-black/30 to-black/10",
+              "bg-gradient-to-r from-black/75 via-black/50 to-transparent",
+              "bg-gradient-to-l from-black/60 via-black/30 to-transparent",
+              "bg-gradient-to-t from-black/70 via-black/40 to-transparent",
+            ];
+            const overlay = overlays[idx % overlays.length];
+            
+            // Varying heights: first panel is tallest, then alternate between medium and compact
+            const heights = idx === 0 
+              ? "h-[260px] md:h-[380px]" 
+              : idx % 3 === 0 
+                ? "h-[180px] md:h-[280px]" 
+                : "h-[140px] md:h-[220px]";
+            
+            // Varying text sizes to match panel heights
+            const textSize = idx === 0 
+              ? "text-4xl md:text-6xl lg:text-7xl" 
+              : idx % 3 === 0 
+                ? "text-3xl md:text-5xl lg:text-6xl" 
+                : "text-2xl md:text-4xl lg:text-5xl";
+            
+            const isExpanded = expandedIdx === idx;
+            
+            return (
+              <motion.article
+                layout
                 key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ ...appleSpring, delay: idx * 0.05 }}
-                className="bg-white p-8 rounded-3xl shadow-sm border border-black/5 hover:shadow-md transition-shadow flex items-start gap-4"
+                transition={{ 
+                  layout: { type: "spring", bounce: 0, duration: 0.6 },
+                  opacity: { duration: 0.5, delay: idx * 0.05 }
+                }}
+                className={`relative w-full overflow-hidden group cursor-pointer ${isExpanded ? 'h-[360px] md:h-[500px]' : heights}`}
+                onClick={() => setExpandedIdx(isExpanded ? null : idx)}
               >
-                <div className="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 text-[#E5252A]">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                {/* Background Image with hover zoom */}
+                <img 
+                  src={service.img} 
+                  alt={detail.name} 
+                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${isExpanded ? 'scale-105' : 'group-hover:scale-105'}`}
+                  style={{ objectPosition: `center ${20 + (idx * 12) % 80}%` }}
+                />
+                
+                {/* Gradient overlay - darkens significantly when expanded for readability */}
+                <div className={`absolute inset-0 transition-all duration-500 ${isExpanded ? 'bg-black/70 backdrop-blur-[2px]' : overlay}`}></div>
+                
+                {/* Content Container */}
+                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">
+                  <motion.div layout className="relative z-10 w-full max-w-5xl">
+                    <motion.h3 layout className={`${textSize} font-black tracking-[-0.04em] uppercase text-white drop-shadow-lg leading-[0.95]`}
+                      style={{ fontStretch: "condensed" }}
+                    >
+                      {detail.name}
+                    </motion.h3>
+                    
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, y: 10 }}
+                          animate={{ opacity: 1, height: "auto", y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: 10 }}
+                          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden mt-4 md:mt-6"
+                        >
+                          <p className="text-gray-200 text-lg md:text-2xl font-medium leading-relaxed max-w-3xl">
+                            {detail.desc}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-800">{detail}</h3>
+
+                {/* Subtle arrow on hover */}
+                <div className={`absolute top-1/2 -translate-y-1/2 right-8 md:right-14 transition-all duration-500 z-10 ${isExpanded ? 'rotate-90 opacity-100' : 'opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0'}`}>
+                  <span className={`w-10 h-10 md:w-12 md:h-12 rounded-full backdrop-blur-sm border flex items-center justify-center text-white shadow-lg transition-colors duration-300 ${isExpanded ? 'bg-white text-black border-white' : 'bg-white/20 border-white/30'}`}>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </span>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </motion.article>
+            );
+          })}
         </motion.div>
       </section>
 

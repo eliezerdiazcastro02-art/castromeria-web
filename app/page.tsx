@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 import Navbar from "@/components/Navbar";
 
@@ -10,19 +10,37 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
 
-  const darkSectionRef = useRef<HTMLElement>(null);
 
-  const { scrollYProgress: darkScrollY } = useScroll({
 
-    target: darkSectionRef,
+  const testimonials = [
+    {
+      quote: "Nos fabricaron engranajes a medida con precisión impecable. Las fallas bajaron a cero.",
+      author: "Robert Fox",
+      role: "Gerente de Planta",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop"
+    },
+    {
+      quote: "Su servicio de impresión 3D nos permitió validar los prototipos en días en lugar de semanas.",
+      author: "María Fernández",
+      role: "Directora de Producto",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop"
+    },
+    {
+      quote: "El acabado de anodizado superó nuestras expectativas. Las piezas lucen increíbles y son ultra resistentes.",
+      author: "Carlos Méndez",
+      role: "Ingeniero Mecánico",
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=100&auto=format&fit=crop"
+    }
+  ];
 
-    offset: ["start 90%", "end 10%"]
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  });
-
-  const darkMargin = useTransform(darkScrollY, [0, 0.25, 0.75, 1], ["2rem", "0rem", "0rem", "2rem"]);
-
-  const darkRadius = useTransform(darkScrollY, [0, 0.25, 0.75, 1], ["3rem", "0rem", "0rem", "3rem"]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 6000); // 6 seconds per slide
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
 
   return (
 
@@ -230,7 +248,7 @@ export default function Home() {
 
 </section>
 
-<motion.section ref={darkSectionRef} style={{ marginLeft: darkMargin, marginRight: darkMargin, borderRadius: darkRadius }} className="py-24 bg-[#0a0a0a] text-white my-12 relative overflow-hidden">
+<section className="py-24 bg-[#0a0a0a] text-white my-12 mx-2 md:mx-4 lg:mx-6 rounded-[2.5rem] relative overflow-hidden">
 
 <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] opacity-50"></div>
 
@@ -334,7 +352,7 @@ export default function Home() {
 
 </div>
 
-</motion.section>
+</section>
 
   {/* New "Proyectos a Medida" Section */}
 
@@ -508,18 +526,40 @@ export default function Home() {
 
 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-<div className="flex flex-col items-center text-center mb-32 max-w-4xl mx-auto">
-  <div>
-    <blockquote className="text-2xl md:text-3xl font-semibold text-gray-900 leading-snug mb-8">
-      &quot;Nos fabricaron engranajes a medida con precisión impecable. Las fallas bajaron a cero.&quot;
-    </blockquote>
-    <div className="flex items-center justify-center gap-4 text-left">
-      <img alt="Robert Fox" className="w-14 h-14 rounded-full object-cover shadow-sm" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop"/>
-      <div>
-        <div className="font-bold text-gray-900">Robert Fox</div>
-        <div className="text-gray-500 text-sm">Gerente de Planta</div>
+<div className="flex flex-col items-center text-center mb-32 max-w-4xl mx-auto h-[280px] relative">
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={currentTestimonial}
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute inset-0 flex flex-col items-center justify-center w-full px-4"
+    >
+      <blockquote className="text-2xl md:text-3xl font-semibold text-gray-900 leading-snug mb-8">
+        &quot;{testimonials[currentTestimonial].quote}&quot;
+      </blockquote>
+      <div className="flex items-center justify-center gap-4 text-left">
+        <img alt={testimonials[currentTestimonial].author} className="w-14 h-14 rounded-full object-cover shadow-sm" src={testimonials[currentTestimonial].image}/>
+        <div>
+          <div className="font-bold text-gray-900">{testimonials[currentTestimonial].author}</div>
+          <div className="text-gray-500 text-sm">{testimonials[currentTestimonial].role}</div>
+        </div>
       </div>
-    </div>
+    </motion.div>
+  </AnimatePresence>
+  
+  <div className="absolute -bottom-10 flex justify-center gap-3">
+    {testimonials.map((_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentTestimonial(index)}
+        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+          currentTestimonial === index ? "bg-red-600 w-8" : "bg-gray-300 hover:bg-gray-400"
+        }`}
+        aria-label={`Ver testimonio ${index + 1}`}
+      />
+    ))}
   </div>
 </div>
 
