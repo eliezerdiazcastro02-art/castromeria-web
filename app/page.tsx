@@ -74,8 +74,8 @@ export default function Home() {
     let animationFrameId: number;
     const scroll = () => {
       if (!isInteracting.current) {
-        // Velocidad adaptativa: Más rápido en PC (pantallas anchas), suave en móviles
-        const speed = window.innerWidth > 1024 ? 1.5 : 0.8;
+        // Velocidad mucho más rápida: 4 píxeles por frame en PC, 2 en móviles (evita redondeos y da sensación de velocidad real)
+        const speed = window.innerWidth > 1024 ? 4 : 2;
         scrollPos.current += speed;
         const firstChild = container.firstChild as HTMLElement;
         if (firstChild) {
