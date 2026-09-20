@@ -42,39 +42,63 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
-  // Lógica para la cinta de logos infinita, arrastrable y pausable
+  // Lógica Ultra Optimizada para la cinta de logos (Sin bugs de React state ni interrupciones táctiles)
   const marqueeRef = useRef<HTMLDivElement>(null);
   const scrollPos = useRef(0);
-  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
+  const isInteracting = useRef(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const container = marqueeRef.current;
     if (!container) return;
-    
+
+    // Detectar scroll manual (táctil o rueda) y respetar el "momentum" nativo de iOS
+    const handleScroll = () => {
+      isInteracting.current = true;
+      scrollPos.current = container.scrollLeft;
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        isInteracting.current = false;
+      }, 150); // Esperar a que la inercia táctil termine antes de retomar el auto-scroll
+    };
+
+    const handleEnter = () => { isInteracting.current = true; };
+    const handleLeave = () => { isInteracting.current = false; scrollPos.current = container.scrollLeft; };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    container.addEventListener("mouseenter", handleEnter);
+    container.addEventListener("mouseleave", handleLeave);
+    container.addEventListener("touchstart", handleEnter, { passive: true });
+    container.addEventListener("touchend", handleLeave);
+
     let animationFrameId: number;
     const scroll = () => {
-      if (!isMarqueePaused) {
+      if (!isInteracting.current) {
         scrollPos.current += 0.5; // Velocidad de auto-scroll
         const firstChild = container.firstChild as HTMLElement;
         if (firstChild) {
           const maxScroll = firstChild.offsetWidth;
-          // Loop infinito sin saltos
           if (scrollPos.current >= maxScroll) {
             scrollPos.current -= maxScroll;
           }
         }
         container.scrollLeft = scrollPos.current;
-      } else {
-        // Si está en pausa (porque el usuario tiene el dedo encima),
-        // sincronizamos nuestra variable con la posición real para que no dé tirones al soltar
-        scrollPos.current = container.scrollLeft;
       }
       animationFrameId = requestAnimationFrame(scroll);
     };
 
     animationFrameId = requestAnimationFrame(scroll);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isMarqueePaused]);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      container.removeEventListener("scroll", handleScroll);
+      container.removeEventListener("mouseenter", handleEnter);
+      container.removeEventListener("mouseleave", handleLeave);
+      container.removeEventListener("touchstart", handleEnter);
+      container.removeEventListener("touchend", handleLeave);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
+  }, []);
 
   return (
 
@@ -162,10 +186,6 @@ export default function Home() {
         ref={marqueeRef}
         className="flex overflow-x-auto overflow-y-hidden w-full scrollbar-hide py-4" 
         style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
-        onMouseEnter={() => setIsMarqueePaused(true)}
-        onMouseLeave={() => setIsMarqueePaused(false)}
-        onTouchStart={() => setIsMarqueePaused(true)}
-        onTouchEnd={() => setIsMarqueePaused(false)}
       >
         <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
 
@@ -173,40 +193,40 @@ export default function Home() {
           {Array(4).fill(0).map((_, i) => (
             <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
               {/* Edwards Lifesciences */}
-              <img alt="Edwards Lifesciences" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Edwards.png"/>
+              <img alt="Edwards Lifesciences" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Edwards.png"/>
 
               {/* Medtronic */}
-              <img alt="Medtronic" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Medtronic.png"/>
+              <img alt="Medtronic" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Medtronic.png"/>
 
               {/* B BRAUN */}
-              <img alt="B Braun" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/bbraun.svg"/>
+              <img alt="B Braun" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/bbraun.svg"/>
 
               {/* MicroPort */}
-              <img alt="MicroPort" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/microport.png"/>
+              <img alt="MicroPort" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/microport.png"/>
 
               {/* INTEC */}
-              <img alt="INTEC" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/intec.svg"/>
+              <img alt="INTEC" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/intec.svg"/>
 
               {/* Santo Domingo Motors */}
-              <img alt="Santo Domingo Motors" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/sdm.svg"/>
+              <img alt="Santo Domingo Motors" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/sdm.svg"/>
 
               {/* POMA */}
-              <img alt="POMA" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/poma.png"/>
+              <img alt="POMA" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/poma.png"/>
 
               {/* Mallen */}
-              <img alt="Mallen" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/MALLEN.png"/>
+              <img alt="Mallen" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/MALLEN.png"/>
 
               {/* Acromax */}
-              <img alt="Acromax" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/acromax.png" />
+              <img alt="Acromax" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/acromax.png" />
               
               {/* Valiente Fernandez */}
-              <img alt="Valiente Fernandez" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/valiente.png"/>
+              <img alt="Valiente Fernandez" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/valiente.png"/>
               
               {/* Plasticos Duralon */}
-              <img alt="Plasticos Duralon" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/duralon.png"/>
+              <img alt="Plasticos Duralon" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/duralon.png"/>
 
               {/* Ingredientes */}
-              <img alt="Ingredientes" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Ingrediente.png"/>
+              <img alt="Ingredientes" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Ingrediente.png"/>
             </div>
           ))}
         </div>
