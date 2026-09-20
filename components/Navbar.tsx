@@ -39,15 +39,18 @@ export default function Navbar() {
     { name: 'Inicio', href: '/' },
     { name: 'Nosotros', href: '/nosotros' },
     { name: 'Servicios', href: '/servicios', hasDropdown: true },
-    { name: 'Producto', href: '/tienda' },
+    { name: 'Alquileres', href: '/tienda' },
     { name: 'Contáctanos', href: '/contacto' },
   ];
 
   return (
     <>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl bg-white/70 backdrop-blur-xl border border-white/40 shadow-lg rounded-full px-6 py-3 flex items-center justify-between transition-all duration-500">
-        <Link href="/" onClick={() => window.scrollTo(0,0)} className="flex items-center group relative z-10">
-          <img src="/Castromeria_logo.png" alt="Castromeria" className="h-6 md:h-7 object-contain transition-transform duration-500 group-hover:scale-105" />
+        <Link href="/" onClick={() => window.scrollTo(0,0)} className="flex items-center gap-2 md:gap-3 group relative z-10">
+          <div className="w-9 h-9 md:w-11 md:h-11 shrink-0 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 flex items-center justify-center p-1 transition-transform duration-500 group-hover:scale-105">
+            <img src="/logo_secundario.png" alt="Castromeria Insignia" className="w-full h-full object-contain" />
+          </div>
+          <img src="/castromeria_logo.png" alt="Castromeria" className="h-6 md:h-8 shrink-0 object-contain transition-transform duration-500 group-hover:opacity-80" />
         </Link>
 
         {/* Desktop Navigation */}

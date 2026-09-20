@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle2, Factory, PenTool, Zap } from "lucide-react";
+import { CheckCircle2, Factory, PenTool, Zap, Users, Target, Star } from "lucide-react";
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <svg
@@ -80,10 +80,26 @@ export default function NosotrosPage() {
           className="mt-20 relative w-full max-w-5xl aspect-[21/9] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/40"
         >
           <img 
-            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop" 
-            alt="CNC Manufacturing" 
+            src="/hero_nosotros.jpg" 
+            alt="Taller Castromeria" 
             className="w-full h-full object-cover"
           />
+        </motion.div>
+      </section>
+
+      {/* Quiénes Somos Section */}
+      <section className="py-24 px-6 max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={appleSpring}
+          className="text-center"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Quiénes Somos.</h2>
+          <p className="text-xl text-gray-500 leading-relaxed max-w-3xl mx-auto">
+            Somos una empresa especializada en servicios de diseño industrial, fabricación, programación, automatización, asesoría, facilidades, impresión 3D y anodizado. Líderes en el campo de CNC (control numérico computarizado), con más de 3 años de experiencia brindando soluciones innovadoras y de alta calidad a nuestros clientes.
+          </p>
         </motion.div>
       </section>
 
@@ -129,7 +145,7 @@ export default function NosotrosPage() {
             className="bg-black text-white rounded-[2rem] p-10 md:p-14 shadow-xl flex flex-col justify-between aspect-square relative overflow-hidden"
           >
             <img 
-              src="https://images.unsplash.com/photo-1581092334397-92634e5db89e?q=80&w=1200&auto=format&fit=crop"
+              src="/subservicios/mecanizado.png"
               alt="Precision"
               className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay"
             />
@@ -151,15 +167,18 @@ export default function NosotrosPage() {
             {[
               {
                 title: "Equipo.",
-                desc: "Ingenieros, técnicos y especialistas que trabajan juntos para resolver cualquier reto de manufactura."
+                desc: "Ingenieros, técnicos y especialistas que trabajan juntos para resolver cualquier reto de manufactura.",
+                Icon: Users
               },
               {
                 title: "Objetivos.",
-                desc: "Calidad sin compromisos, mejora continua y crecimiento sostenido."
+                desc: "Calidad sin compromisos, mejora continua y crecimiento sostenido.",
+                Icon: Target
               },
               {
                 title: "Valores.",
-                desc: "Integridad, calidad, trabajo en equipo y respeto."
+                desc: "Integridad, honestidad, calidad, trabajo en equipo y respeto hacia nuestros clientes, empleados y proveedores.",
+                Icon: Star
               }
             ].map((feature, i) => (
               <motion.div 
@@ -171,7 +190,7 @@ export default function NosotrosPage() {
                 className="flex items-start gap-6 border-b border-gray-100 pb-16 last:border-0 last:pb-0"
               >
                 <div className="mt-1 bg-red-50 text-red-500 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-6 h-6" />
+                  <feature.Icon className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold tracking-tight mb-3">{feature.title}</h3>

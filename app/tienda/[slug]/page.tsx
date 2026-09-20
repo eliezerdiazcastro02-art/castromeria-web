@@ -36,6 +36,17 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   const [toDate, setToDate] = useState("");
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
+  // Zoom feature states
+  const [isZooming, setIsZooming] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
+  };
+
   let whatsappMessage = `Hola, me gustaría agendar/cotizar el servicio: ${product.name} (${product.sku}).`;
   
   if (fromDate && toDate) {
@@ -78,11 +89,23 @@ ${calUrl}`;
             <span className="absolute top-6 left-6 bg-white px-3 py-1 rounded-full text-xs font-bold tracking-widest shadow-sm z-10">
               ALQUILER
             </span>
-            <div className="flex-grow flex items-center justify-center w-full">
+            <div 
+              className="flex-grow flex items-center justify-center w-full max-w-lg relative overflow-hidden rounded-2xl cursor-zoom-in"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsZooming(true)}
+              onMouseLeave={() => {
+                setIsZooming(false);
+                setTimeout(() => setMousePos({ x: 50, y: 50 }), 200); // Reset after transition
+              }}
+            >
               <img 
                 src={product.images[activeImgIndex]} 
                 alt={product.name} 
-                className="w-full max-w-lg h-auto object-contain drop-shadow-2xl mix-blend-multiply transition-all duration-300"
+                className="w-full h-auto object-contain drop-shadow-2xl mix-blend-multiply transition-transform duration-200 ease-out"
+                style={{
+                  transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
+                  transform: isZooming ? 'scale(2.5)' : 'scale(1)'
+                }}
               />
             </div>
             

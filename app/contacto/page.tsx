@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Mail, MapPin, Phone, ArrowRight, Send } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowRight, Send, Clock } from "lucide-react";
 
 export default function ContactoPage() {
   const [nombre, setNombre] = useState("");
@@ -51,7 +51,7 @@ export default function ContactoPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...appleSpring, delay: 0.1 }}
-            className="md:col-span-7 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col justify-between"
+            className="md:col-span-7 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-gray-100 h-fit"
           >
             <div>
               <h2 className="text-3xl font-bold tracking-tight mb-2">Escríbenos</h2>
@@ -117,7 +117,7 @@ export default function ContactoPage() {
           </motion.div>
 
           {/* Right Column: Smaller Bento Cards (5 columns) */}
-          <div className="md:col-span-5 grid grid-cols-1 gap-6 md:gap-8">
+          <div className="md:col-span-5 flex flex-col gap-6 md:gap-8 h-fit">
             
             {/* Direct Contact Card */}
             <motion.div 
@@ -147,36 +147,63 @@ export default function ContactoPage() {
               </div>
             </motion.div>
 
-            {/* Location Card with Image Background */}
-            <motion.a 
-              href="https://www.google.com/maps/place/Castromeria+srl/@45.7160691,-94.1819,3z/data=!3m1!4b1!4m6!3m5!1s0xc76558be8183d13:0x19293bc8a257c9d5!8m2!3d45.716069!4d-94.1819!16s%2Fg%2F11zj6bz6dy?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ ...appleSpring, delay: 0.3 }}
-              className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 flex flex-col justify-end min-h-[300px] relative overflow-hidden group cursor-pointer block"
+            {/* Business Hours Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ ...appleSpring, delay: 0.25 }}
+              className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden group"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1000&auto=format&fit=crop" 
-                alt="Location" 
-                className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/50 to-transparent"></div>
-              
-              <div className="relative z-10">
-                <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4 shadow-sm">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <h3 className="text-2xl font-bold tracking-tight mb-2">Santo Domingo, RD.</h3>
-                <p className="text-gray-600 mb-4 font-medium">Parque Industrial, Nave 4.<br/>República Dominicana.</p>
-                <div className="flex items-center gap-2 text-red-600 font-semibold group-hover:gap-3 transition-all">
-                  Ver en Google Maps <ArrowRight className="w-4 h-4" />
-                </div>
+              <div className="w-12 h-12 bg-gray-50 text-gray-900 rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <Clock className="w-5 h-5" />
               </div>
-            </motion.a>
-
+              <h3 className="text-2xl font-bold tracking-tight mb-6">Horario de Operaciones</h3>
+              <ul className="space-y-4">
+                <li className="flex justify-between items-center text-gray-600 font-medium">
+                  <span>Lunes a Viernes</span>
+                  <span className="text-gray-900 font-bold bg-gray-50 px-3 py-1 rounded-full text-sm">9:00 - 18:00</span>
+                </li>
+                <li className="flex justify-between items-center text-gray-600 font-medium">
+                  <span>Sábado</span>
+                  <span className="text-gray-900 font-bold bg-gray-50 px-3 py-1 rounded-full text-sm">9:00 - 12:00</span>
+                </li>
+                <li className="flex justify-between items-center text-gray-600 font-medium">
+                  <span>Domingo</span>
+                  <span className="text-red-500 font-bold bg-red-50 px-3 py-1 rounded-full text-sm">Cerrado</span>
+                </li>
+              </ul>
+            </motion.div>
           </div>
+
+          {/* Full Width Location Card at the Bottom */}
+          <motion.a 
+            href="https://www.google.com/maps/place/Castromeria+srl/@18.4860575,-69.9312117,11z"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...appleSpring, delay: 0.3 }}
+            className="md:col-span-12 bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 flex flex-col justify-end min-h-[350px] relative overflow-hidden group cursor-pointer block mt-4"
+          >
+            <img 
+              src="/subservicios/estructuras-metalicas.png" 
+              alt="Location" 
+              className="absolute inset-0 w-full h-full object-cover opacity-[0.15] group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/50 to-transparent md:bg-gradient-to-r md:from-white/90 md:via-white/50 md:to-transparent"></div>
+            
+            <div className="relative z-10 md:max-w-md">
+              <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <h3 className="text-3xl font-bold tracking-tight mb-2">Santo Domingo, RD.</h3>
+              <p className="text-gray-600 mb-6 font-medium text-lg leading-relaxed">Parque Industrial, Nave 4.<br/>República Dominicana.</p>
+              <div className="flex items-center gap-2 text-red-600 font-semibold group-hover:gap-3 transition-all">
+                Ver en Google Maps <ArrowRight className="w-4 h-4" />
+              </div>
+            </div>
+          </motion.a>
+
         </div>
       </section>
 

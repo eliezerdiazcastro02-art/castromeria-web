@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
 import { MapPin, Mail, Phone, FileText, Check, ExternalLink, Copy } from 'lucide-react';
 
 export default function Footer() {
@@ -15,11 +16,14 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 pt-20 pb-10 border-t border-gray-200 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
-          <div className="col-span-2 lg:col-span-2">
-            <div className="flex items-center mb-6">
-              <img src="/Castromeria_logo.png" alt="Castromeria" className="h-6 md:h-7 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300" />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
+          <div className="col-span-1 md:col-span-2 lg:col-span-4">
+            <Link href="/" className="flex items-center gap-3 mb-6 group inline-flex w-fit">
+              <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:scale-105">
+                <img src="/logo_secundario.png" alt="Castromeria Insignia" className="w-full h-full object-contain" />
+              </div>
+              <img src="/castromeria_logo.png" alt="Castromeria" className="h-7 md:h-9 shrink-0 object-contain transition-transform duration-500 group-hover:opacity-80" />
+            </Link>
             <p className="text-gray-500 text-sm max-w-xs leading-relaxed mb-4">
               Diseño, fabricación e ingeniería industrial en República Dominicana.
             </p>
@@ -82,16 +86,18 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          <div className="col-span-1 lg:col-span-2">
             <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Servicios</h4>
             <ul className="space-y-4">
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/fabricacion">Fabricación</a></li>
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/diseno-industrial">Diseño Industrial</a></li>
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/impresion-3d">Impresión 3D</a></li>
+              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/anodizado-teflonado">Anodizado y Teflonado</a></li>
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/asesoria-tecnica">Asesoría Técnica</a></li>
+              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/facilidades">Facilidades</a></li>
             </ul>
           </div>
-          <div>
+          <div className="col-span-1 lg:col-span-2">
             <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Navegación</h4>
             <ul className="space-y-4">
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/">Inicio</a></li>
@@ -100,7 +106,24 @@ export default function Footer() {
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/contacto">Contacto</a></li>
             </ul>
           </div>
-          <div>
+          <div className="col-span-1 lg:col-span-2">
+            <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Horario</h4>
+            <ul className="space-y-4">
+              <li className="flex flex-col text-sm text-gray-500">
+                <span className="font-semibold text-gray-900 mb-1">Lun - Vie:</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <li className="flex flex-col text-sm text-gray-500">
+                <span className="font-semibold text-gray-900 mb-1">Sábado:</span>
+                <span>9:00 - 12:00</span>
+              </li>
+              <li className="flex flex-col text-sm text-gray-500">
+                <span className="font-semibold text-gray-900 mb-1">Domingo:</span>
+                <span className="text-red-500 font-medium">Cerrado</span>
+              </li>
+            </ul>
+          </div>
+          <div className="col-span-1 lg:col-span-2">
             <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Redes Sociales</h4>
             <ul className="space-y-4">
               <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer">Instagram</a></li>

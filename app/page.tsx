@@ -14,22 +14,22 @@ export default function Home() {
 
   const testimonials = [
     {
-      quote: "Nos fabricaron engranajes a medida con precisión impecable. Las fallas bajaron a cero.",
-      author: "Robert Fox",
-      role: "Gerente de Planta",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop"
+      quote: "Fabricamos engranajes a medida con precisión micrométrica. Las fallas en línea de producción bajaron a cero.",
+      author: "Sector Médico",
+      role: "Zona Franca Industrial",
+      image: "/logos/Edwards.png"
     },
     {
-      quote: "Su servicio de impresión 3D nos permitió validar los prototipos en días en lugar de semanas.",
-      author: "María Fernández",
-      role: "Directora de Producto",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop"
+      quote: "Con impresión 3D, validamos prototipos funcionales en días en lugar de semanas. Ahorramos meses de desarrollo.",
+      author: "Sector Farmacéutico",
+      role: "Laboratorio Nacional",
+      image: "/logos/ACROMAX.png"
     },
     {
-      quote: "El acabado de anodizado superó nuestras expectativas. Las piezas lucen increíbles y son ultra resistentes.",
-      author: "Carlos Méndez",
-      role: "Ingeniero Mecánico",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=100&auto=format&fit=crop"
+      quote: "El acabado de anodizado superó nuestras expectativas. Las piezas resisten ambientes extremos y lucen impecables.",
+      author: "Sector Automotriz",
+      role: "Distribuidor Nacional",
+      image: "/logos/sdm.svg"
     }
   ];
 
@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
 
-    <div className="bg-gray-50 text-gray-900 font-sans antialiased overflow-x-hidden">
+    <div className="bg-gray-50 text-gray-900 font-sans antialiased overflow-x-clip">
 
 <Navbar />
 
@@ -137,11 +137,11 @@ export default function Home() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-scroll-logos {
-          display: flex;
-          width: max-content;
-          animation: scroll-logos 30s linear infinite;
-        }
+          .animate-scroll-logos {
+            display: flex;
+            width: max-content;
+            animation: scroll-logos 50s linear infinite;
+          }
         .group:hover .animate-scroll-logos {
           animation-play-state: paused;
         }
@@ -154,11 +154,41 @@ export default function Home() {
       <div className="animate-scroll-logos opacity-80 mt-4 mb-4 items-center">
         {Array(4).fill(0).map((_, i) => (
           <div key={i} className="flex flex-shrink-0 items-center gap-16 md:gap-24 px-8 md:px-12 whitespace-nowrap">
-            <img alt="Salesforce" className="h-6 md:h-8 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"/>
-            <img alt="Amazon" className="h-6 md:h-8 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"/>
-            <img alt="Wayfair" className="h-6 md:h-8 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="https://upload.wikimedia.org/wikipedia/commons/7/75/Wayfair_logo.svg"/>
-            <img alt="Etsy" className="h-6 md:h-8 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="https://upload.wikimedia.org/wikipedia/commons/8/89/Etsy_logo.svg"/>
-            <img alt="eBay" className="h-6 md:h-8 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg"/>
+            {/* Edwards Lifesciences */}
+            <img alt="Edwards Lifesciences" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Edwards.png"/>
+
+            {/* Medtronic */}
+            <img alt="Medtronic" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Medtronic.png"/>
+
+            {/* B BRAUN */}
+            <img alt="B Braun" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/bbraun.svg"/>
+
+            {/* MicroPort */}
+            <img alt="MicroPort" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/microport.png"/>
+
+            {/* INTEC */}
+            <img alt="INTEC" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/intec.svg"/>
+
+            {/* Santo Domingo Motors */}
+            <img alt="Santo Domingo Motors" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/sdm.svg"/>
+
+            {/* POMA */}
+            <img alt="POMA" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/POMA.png"/>
+
+            {/* Mallen */}
+            <img alt="Mallen" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/MALLEN.png"/>
+
+            {/* Acromax */}
+            <img alt="Acromax" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/ACROMAX.png" />
+            
+            {/* Valiente Fernandez */}
+            <img alt="Valiente Fernandez" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/valiente.png"/>
+            
+            {/* Plasticos Duralon */}
+            <img alt="Plasticos Duralon" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/duralon.png"/>
+
+            {/* Ingredientes */}
+            <img alt="Ingredientes" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Ingrediente.png"/>
           </div>
         ))}
       </div>
@@ -257,8 +287,6 @@ export default function Home() {
 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
 
 <div>
-
-<p className="text-red-500 font-semibold mb-4 text-sm tracking-wider uppercase">NOSOTROS</p>
 
 <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
 
@@ -522,7 +550,7 @@ export default function Home() {
 
   </section>
 
-<section className="py-24 bg-white relative overflow-x-hidden">
+<section className="py-24 bg-white relative overflow-x-clip">
 
 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -540,7 +568,7 @@ export default function Home() {
         &quot;{testimonials[currentTestimonial].quote}&quot;
       </blockquote>
       <div className="flex items-center justify-center gap-4 text-left">
-        <img alt={testimonials[currentTestimonial].author} className="w-14 h-14 rounded-full object-cover shadow-sm" src={testimonials[currentTestimonial].image}/>
+        <img alt={testimonials[currentTestimonial].author} className="w-14 h-14 rounded-2xl object-contain mix-blend-multiply bg-gray-50 p-2 shadow-sm" src={testimonials[currentTestimonial].image}/>
         <div>
           <div className="font-bold text-gray-900">{testimonials[currentTestimonial].author}</div>
           <div className="text-gray-500 text-sm">{testimonials[currentTestimonial].role}</div>
