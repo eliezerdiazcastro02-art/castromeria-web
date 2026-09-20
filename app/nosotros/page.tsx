@@ -19,10 +19,13 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 
 const FounderAppleBadge = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  // Reducimos el margen a -20px para asegurar que se dispare en pantallas pequeñas (móviles)
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   return (
-    <div ref={ref} className="absolute top-[55%] -translate-y-1/2 -right-6 md:-right-20 z-20">
+    // En móvil: sobrepuesto en la esquina inferior derecha para que no se corte.
+    // En PC: flotando afuera a la derecha.
+    <div ref={ref} className="absolute bottom-6 right-0 translate-x-1/3 md:top-[55%] md:bottom-auto md:-translate-y-1/2 md:-right-20 z-20">
       <motion.a
         href="https://do.linkedin.com/in/eliezer-diaz-castro-b500631aa"
         target="_blank"
@@ -30,13 +33,13 @@ const FounderAppleBadge = () => {
         initial={{ opacity: 0, scale: 0.5, x: -30 }}
         animate={isInView ? { opacity: 1, scale: 1, x: 0 } : { opacity: 0, scale: 0.5, x: -30 }}
         transition={{ type: "spring", stiffness: 400, damping: 25, mass: 1, delay: 0.2 }}
-        className="flex items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:bg-white/90 transition-all duration-300 group"
+        className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:bg-white transition-all duration-300 group"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="#0a66c2"
-          className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
+          className="w-6 h-6 md:w-7 md:h-7 group-hover:scale-110 transition-transform duration-300"
         >
           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
         </svg>
