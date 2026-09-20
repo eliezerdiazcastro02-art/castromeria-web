@@ -133,9 +133,22 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">&copy; 2026 Castromeria. Todos los derechos reservados.</p>
-          <div className="flex items-center gap-6 text-gray-400">
+        <div className="border-t border-gray-200 pt-8 flex flex-col xl:flex-row justify-between items-center xl:items-end gap-6">
+          <div className="flex flex-col items-center xl:items-start gap-3">
+            <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Castromeria. Todos los derechos reservados.</p>
+            <div className="flex flex-wrap justify-center xl:justify-start items-center gap-x-3 gap-y-2 text-sm text-gray-500">
+              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Política de Privacidad</Link>
+              <span className="text-gray-300">|</span>
+              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Términos de Uso</Link>
+              <span className="text-gray-300">|</span>
+              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Ventas y Reembolsos</Link>
+              <span className="hidden sm:inline text-gray-300">|</span>
+              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Aviso Legal</Link>
+              <span className="text-gray-300">|</span>
+              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Mapa del Sitio</Link>
+            </div>
+          </div>
+          <div className="flex items-center gap-6 text-gray-400 shrink-0">
             <a href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" aria-label="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
