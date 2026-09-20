@@ -184,21 +184,19 @@ export default function Home() {
   <div className="mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     {/* Real Brand Logos - Infinite JS Marquee (Auto-scroll + Swipeable) */}
-    <div className="relative group w-full overflow-hidden">
+    <div className="relative group w-full overflow-hidden opacity-80">
       {/* Gradient masks for smooth fade in/out (Disabled on mobile so it doesn't block touch) */}
       <div className="absolute top-0 bottom-0 left-0 w-8 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
       <div className="absolute top-0 bottom-0 right-0 w-8 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
 
+      <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
       <div 
         ref={marqueeRef}
-        className="flex overflow-x-auto overflow-y-hidden w-full scrollbar-hide py-4" 
+        className="flex overflow-x-auto overflow-y-hidden w-full scrollbar-hide py-4 items-center" 
         style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
       >
-        <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
-
-        <div className="flex opacity-80 items-center w-max">
-          {Array(4).fill(0).map((_, i) => (
-            <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
+        {Array(4).fill(0).map((_, i) => (
+          <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
               {/* Edwards Lifesciences */}
               <img alt="Edwards Lifesciences" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Edwards.png"/>
 
@@ -236,7 +234,6 @@ export default function Home() {
               <img alt="Ingredientes" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Ingrediente.png"/>
             </div>
           ))}
-        </div>
       </div>
     </div>
 
