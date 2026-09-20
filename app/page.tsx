@@ -23,7 +23,7 @@ export default function Home() {
       quote: "Con impresión 3D, validamos prototipos funcionales en días en lugar de semanas. Ahorramos meses de desarrollo.",
       author: "Sector Farmacéutico",
       role: "Laboratorio Nacional",
-      image: "/logos/ACROMAX.png"
+      image: "/logos/acromax.png"
     },
     {
       quote: "El acabado de anodizado superó nuestras expectativas. Las piezas resisten ambientes extremos y lucen impecables.",
