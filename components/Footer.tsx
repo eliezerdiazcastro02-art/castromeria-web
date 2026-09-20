@@ -137,15 +137,11 @@ export default function Footer() {
           <div className="flex flex-col items-center xl:items-start gap-3">
             <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Castromeria. Todos los derechos reservados.</p>
             <div className="flex flex-wrap justify-center xl:justify-start items-center gap-x-3 gap-y-2 text-sm text-gray-500">
-              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Política de Privacidad</Link>
+              <Link href="/privacidad" className="hover:text-gray-800 transition-colors hover:underline">Política de Privacidad</Link>
               <span className="text-gray-300">|</span>
-              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Términos de Uso</Link>
+              <Link href="/terminos" className="hover:text-gray-800 transition-colors hover:underline">Términos de Uso</Link>
               <span className="text-gray-300">|</span>
-              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Ventas y Reembolsos</Link>
-              <span className="hidden sm:inline text-gray-300">|</span>
-              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Aviso Legal</Link>
-              <span className="text-gray-300">|</span>
-              <Link href="#" className="hover:text-gray-800 transition-colors hover:underline">Mapa del Sitio</Link>
+              <Link href="/legal" className="hover:text-gray-800 transition-colors hover:underline">Aviso Legal</Link>
             </div>
           </div>
           <div className="flex items-center gap-6 text-gray-400 shrink-0">
