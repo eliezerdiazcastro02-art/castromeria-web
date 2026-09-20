@@ -161,13 +161,13 @@ export default function Home() {
             <img alt="Santo Domingo Motors" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/sdm.svg"/>
 
             {/* POMA */}
-            <img alt="POMA" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/POMA.png"/>
+            <img alt="POMA" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/poma.png"/>
 
             {/* Mallen */}
             <img alt="Mallen" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/MALLEN.png"/>
 
             {/* Acromax */}
-            <img alt="Acromax" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/ACROMAX.png" />
+            <img alt="Acromax" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/acromax.png" />
             
             {/* Valiente Fernandez */}
             <img alt="Valiente Fernandez" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/valiente.png"/>
