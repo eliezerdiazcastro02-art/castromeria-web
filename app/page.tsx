@@ -74,7 +74,9 @@ export default function Home() {
     let animationFrameId: number;
     const scroll = () => {
       if (!isInteracting.current) {
-        scrollPos.current += 0.5; // Velocidad de auto-scroll
+        // Velocidad adaptativa: Más rápido en PC (pantallas anchas), suave en móviles
+        const speed = window.innerWidth > 1024 ? 1.5 : 0.8;
+        scrollPos.current += speed;
         const firstChild = container.firstChild as HTMLElement;
         if (firstChild) {
           const maxScroll = firstChild.offsetWidth;
