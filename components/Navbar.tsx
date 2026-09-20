@@ -208,7 +208,7 @@ export default function Navbar() {
             animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
             exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-40 bg-white/95 md:hidden flex flex-col pt-28 px-8"
+            className="fixed inset-0 z-40 bg-white/95 md:hidden flex flex-col pt-28 px-8 overflow-y-auto pb-10"
           >
             <div className="flex flex-col gap-6 text-2xl font-bold text-gray-900">
               {navItems.map((item) => (
@@ -242,7 +242,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-6 mt-auto mb-12 text-gray-500">
+            <div className="flex items-center gap-6 mt-12 pt-8 border-t border-gray-100 text-gray-500">
               <a href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>

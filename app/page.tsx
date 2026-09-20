@@ -53,48 +53,36 @@ export default function Home() {
   {/* 3-Panel Diagonal Collage Background */}
     <div className="absolute inset-0 z-0 bg-[#FBFBFD]">
 
-      {/* === DESKTOP: Three diagonal parallelogram panels === */}
-      <div className="hidden lg:block absolute inset-0 overflow-hidden">
-
+      {/* === RESPONSIVE: Three diagonal parallelogram panels === */}
+      <div className="absolute inset-0 overflow-hidden">
         {/* Single Image Split into 3 Diagonal Panels */}
         <div 
-          className="absolute inset-y-0 right-0 w-[55%]"
+          className="absolute inset-y-0 right-0 w-[100%] lg:w-[55%]"
           style={{ clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)" }}
         >
           <img src="/laser_cutter.jpg" alt="Laser Cutting" className="absolute inset-0 w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-black/5"></div>
+          <div className="absolute inset-0 bg-black/10"></div>
 
           {/* Gap 1 */}
           <div 
-            className="absolute -top-10 -bottom-10 w-4 bg-[#FBFBFD]" 
+            className="absolute -top-10 -bottom-10 w-2 lg:w-4 bg-[#FBFBFD]" 
             style={{ left: "33%", transform: "skewX(-10deg)" }}
           ></div>
 
           {/* Gap 2 */}
           <div 
-            className="absolute -top-10 -bottom-10 w-4 bg-[#FBFBFD]" 
+            className="absolute -top-10 -bottom-10 w-2 lg:w-4 bg-[#FBFBFD]" 
             style={{ left: "66%", transform: "skewX(-10deg)" }}
           ></div>
         </div>
 
-        {/* Stronger white fade on left edge to protect text readability from the images moving left */}
-        <div className="absolute inset-y-0 left-[35%] w-[25%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/90 to-transparent z-10 pointer-events-none"></div>
-      </div>
-
-      {/* === MOBILE: Single diagonal image below text === */}
-      <div className="lg:hidden absolute inset-0">
-        <div 
-          className="absolute bottom-0 left-0 w-full h-[45%]"
-          style={{ clipPath: "polygon(0 15%, 100% 0, 100% 100%, 0 100%)" }}
-        >
-          <img src="/laser_cutter.jpg" alt="Laser Cutting" className="absolute inset-0 w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-black/10"></div>
-        </div>
+        {/* Stronger white fade on left edge to protect text readability */}
+        <div className="absolute inset-y-0 left-0 w-[95%] lg:w-[25%] lg:left-[35%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/95 to-transparent z-10 pointer-events-none"></div>
       </div>
 
     </div>
 
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pb-[100px] lg:pb-0">
 
     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.1, staggerChildren: 0.1 }} className="max-w-3xl">
 
@@ -153,42 +141,42 @@ export default function Home() {
 
       <div className="animate-scroll-logos opacity-80 mt-4 mb-4 items-center">
         {Array(4).fill(0).map((_, i) => (
-          <div key={i} className="flex flex-shrink-0 items-center gap-16 md:gap-24 px-8 md:px-12 whitespace-nowrap">
+          <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
             {/* Edwards Lifesciences */}
-            <img alt="Edwards Lifesciences" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Edwards.png"/>
+            <img alt="Edwards Lifesciences" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Edwards.png"/>
 
             {/* Medtronic */}
-            <img alt="Medtronic" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Medtronic.png"/>
+            <img alt="Medtronic" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Medtronic.png"/>
 
             {/* B BRAUN */}
-            <img alt="B Braun" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/bbraun.svg"/>
+            <img alt="B Braun" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/bbraun.svg"/>
 
             {/* MicroPort */}
-            <img alt="MicroPort" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/microport.png"/>
+            <img alt="MicroPort" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/microport.png"/>
 
             {/* INTEC */}
-            <img alt="INTEC" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/intec.svg"/>
+            <img alt="INTEC" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/intec.svg"/>
 
             {/* Santo Domingo Motors */}
-            <img alt="Santo Domingo Motors" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/sdm.svg"/>
+            <img alt="Santo Domingo Motors" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/sdm.svg"/>
 
             {/* POMA */}
-            <img alt="POMA" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/POMA.png"/>
+            <img alt="POMA" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/POMA.png"/>
 
             {/* Mallen */}
-            <img alt="Mallen" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/MALLEN.png"/>
+            <img alt="Mallen" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/MALLEN.png"/>
 
             {/* Acromax */}
-            <img alt="Acromax" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/ACROMAX.png" />
+            <img alt="Acromax" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/ACROMAX.png" />
             
             {/* Valiente Fernandez */}
-            <img alt="Valiente Fernandez" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/valiente.png"/>
+            <img alt="Valiente Fernandez" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/valiente.png"/>
             
             {/* Plasticos Duralon */}
-            <img alt="Plasticos Duralon" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/duralon.png"/>
+            <img alt="Plasticos Duralon" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/duralon.png"/>
 
             {/* Ingredientes */}
-            <img alt="Ingredientes" className="w-28 md:w-44 h-12 md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Ingrediente.png"/>
+            <img alt="Ingredientes" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Ingrediente.png"/>
           </div>
         ))}
       </div>
@@ -388,12 +376,12 @@ export default function Home() {
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-      <div className="flex flex-col items-center justify-center relative z-10 pb-56 w-full">
+      <div className="flex flex-col items-center justify-center relative z-10 pb-32 lg:pb-56 w-full">
 
         {/* Center Column */}
 
         <div className="pt-10 w-full">
-          <div className="flex flex-col items-center text-center mx-auto max-w-2xl mb-24">
+          <div className="flex flex-col items-center text-center mx-auto max-w-2xl mb-24 lg:mb-24">
             <div className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-gray-500 bg-white border border-gray-200 mb-6 shadow-sm">
               Precisión
             </div>
@@ -403,150 +391,84 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-row justify-start items-center gap-4 mb-8 relative flex-nowrap w-full">
+          <div className="flex flex-row justify-start items-start gap-4 mb-8 relative flex-nowrap w-full h-[250px]">
 
-            {/* UNIFIED CONTINUOUS RED LINE */}
-
-            <div className="absolute left-7 top-7 w-[1200px] h-[1500px] pointer-events-none z-0 hidden lg:block">
-
+            {/* UNIFIED CONTINUOUS RED LINE - MOBILE (Mimics PC layout) */}
+            <div className="absolute left-7 top-7 w-[300px] h-[300px] pointer-events-none z-0 block lg:hidden">
               <svg width="100%" height="100%" style={{ overflow: 'visible' }}>
-
-                
-
-                {/* Animated red comet */}
-
                 <motion.path
-
-                  d="M 0 0 L 0 180 Q 0 200 20 200 L 1100 200 Q 1120 200 1120 220 L 1120 800 C 1120 1100, 300 1100, 300 1200"
-
+                  d="M 0 0 L 0 180 Q 0 200 20 200 L 500 200"
                   fill="none" stroke="#ef4444" strokeWidth={4} strokeLinecap="round"
-
-                  initial={{ pathLength: 0.05, pathOffset: 0, opacity: 0 }}
-
+                  initial={{ pathLength: 0.15, pathOffset: 0, opacity: 0 }}
                   animate={{ pathOffset: [0, 1], opacity: [0, 1, 1, 0] }}
-
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear", times: [0, 0.05, 0.95, 1] }}
-
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear", times: [0, 0.1, 0.9, 1] }}
                   style={{ filter: "drop-shadow(0px 0px 8px rgba(239,68,68,0.9))" }}
-
                 />
-
-
-
-
               </svg>
-
             </div>
 
-                            {/* Logos positioned exactly on the horizontal line, animated Left to Right */}
-
-              <div className="absolute top-[188px] pt-[16px] pb-[16px] left-[-150px] pointer-events-auto z-20 w-[1500px] overflow-hidden">
-
-                <style>{`
-
-                  @keyframes marqueeRightMobile {
-
-                    from { transform: translateX(calc(-100% - 1.5rem)); } /* gap-6 = 1.5rem */
-
-                    to { transform: translateX(0%); }
-
-                  }
-
-                  @keyframes marqueeRightDesktop {
-
-                    from { transform: translateX(calc(-100% - 2rem)); } /* gap-8 = 2rem */
-
-                    to { transform: translateX(0%); }
-
-                  }
-
-                  .flawless-marquee {
-
-                    animation: marqueeRightMobile 15s linear infinite;
-
-                  }
-
-                  @media (min-width: 768px) {
-
-                    .flawless-marquee {
-
-                      animation: marqueeRightDesktop 15s linear infinite;
-
-                    }
-
-                  }
-
-                `}</style>
-
-                <div className="flex gap-6 md:gap-8 w-max">
-
-                  {[0, 1, 2, 3, 4, 5, 6].map((group) => (
-
-                    <div key={group} className="flex gap-6 md:gap-8 shrink-0 flawless-marquee" aria-hidden={group !== 0 ? "true" : undefined}>
-
-                      {[
-                        "/parts/part_1.jpg",
-                        "/parts/part_2.jpg",
-
-                        "/parts/part_3.jpg",
-
-                        "/parts/part_4.jpg",
-
-                        "/parts/part_5.jpg",
-
-                        "/parts/part_6.jpg",
-
-                        "/parts/part_7.jpg",
-
-                        "/parts/part_8.jpg",
-
-                        "/parts/part_9.jpg",
-
-                        "/parts/part_10.jpg",
-
-                        "/parts/part_11.jpg",
-
-                        "/parts/part_12.jpg"
-
-                      ].map((imgUrl, n) => (
-
-                        <div key={`${group}-${n}`} className="w-12 h-12 flex-shrink-0 bg-white rounded-full flex items-center justify-center border border-gray-200 shadow-sm relative z-20 overflow-hidden">
-
-                          <img src={imgUrl} alt={`Model ${n}`} className="w-full h-full object-cover" />
-
-                        </div>
-
-                      ))}
-
-                    </div>
-
-                  ))}
-
-                </div>
-
-              </div>
-
+            {/* UNIFIED CONTINUOUS RED LINE - DESKTOP ONLY */}
+            <div className="absolute left-7 top-7 w-[1200px] h-[1500px] pointer-events-none z-0 hidden lg:block">
+              <svg width="100%" height="100%" style={{ overflow: 'visible' }}>
+                {/* Animated red comet */}
+                <motion.path
+                  d="M 0 0 L 0 180 Q 0 200 20 200 L 1100 200 Q 1120 200 1120 220 L 1120 800 C 1120 1100, 300 1100, 300 1200"
+                  fill="none" stroke="#ef4444" strokeWidth={4} strokeLinecap="round"
+                  initial={{ pathLength: 0.05, pathOffset: 0, opacity: 0 }}
+                  animate={{ pathOffset: [0, 1], opacity: [0, 1, 1, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "linear", times: [0, 0.05, 0.95, 1] }}
+                  style={{ filter: "drop-shadow(0px 0px 8px rgba(239,68,68,0.9))" }}
+                />
+              </svg>
             </div>
 
             {/* White Logo Circle (Rendered ON TOP of SVG and Aura) */}
-
             <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center border border-gray-100 relative z-20">
-
               {/* Static Red Ring around the logo */}
-
               <div className="absolute inset-[-4px] rounded-full border-[3px] border-red-500 z-0" />
-
               <img src="/logo.jpg" alt="Castromeria Logo" className="w-8 h-8 object-contain relative z-10" />
-
             </div>
 
-          </div>
-
-          </div>
-
-        </div>
-
-      {/* Row of 8 Circular Placeholders intersected by the line */}
+            {/* Logos positioned exactly on the horizontal line (Same layout PC and Mobile) */}
+            <div className="absolute top-[188px] pt-[16px] pb-[16px] left-[-150px] pointer-events-auto z-20 w-[1500px] overflow-hidden">
+              <style>{`
+                @keyframes marqueeRightMobile {
+                  from { transform: translateX(calc(-100% - 1.5rem)); } /* gap-6 = 1.5rem */
+                  to { transform: translateX(0%); }
+                }
+                @keyframes marqueeRightDesktop {
+                  from { transform: translateX(calc(-100% - 2rem)); } /* gap-8 = 2rem */
+                  to { transform: translateX(0%); }
+                }
+                .flawless-marquee {
+                  animation: marqueeRightMobile 15s linear infinite;
+                }
+                @media (min-width: 768px) {
+                  .flawless-marquee {
+                    animation: marqueeRightDesktop 15s linear infinite;
+                  }
+                }
+              `}</style>
+              <div className="flex gap-6 md:gap-8 w-max">
+                {[0, 1, 2, 3, 4, 5, 6].map((group) => (
+                  <div key={group} className="flex gap-6 md:gap-8 shrink-0 flawless-marquee" aria-hidden={group !== 0 ? "true" : undefined}>
+                    {[
+                      "/parts/part_1.jpg", "/parts/part_2.jpg", "/parts/part_3.jpg", "/parts/part_4.jpg",
+                      "/parts/part_5.jpg", "/parts/part_6.jpg", "/parts/part_7.jpg", "/parts/part_8.jpg",
+                      "/parts/part_9.jpg", "/parts/part_10.jpg", "/parts/part_11.jpg", "/parts/part_12.jpg"
+                    ].map((imgUrl, n) => (
+                      <div key={`${group}-${n}`} className="w-12 h-12 flex-shrink-0 bg-white rounded-full flex items-center justify-center border border-gray-200 shadow-sm relative z-20 overflow-hidden">
+                        <img src={imgUrl} alt={`Model ${n}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div> {/* Closes flex-col lg:flex-row */}
+        </div> {/* Closes pt-10 w-full */}
+      </div> {/* Closes flex-col justify-center pb-32 */}
+    </div> {/* Closes max-w-7xl */}
 
   </section>
 
