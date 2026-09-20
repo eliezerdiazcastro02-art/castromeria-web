@@ -42,6 +42,40 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
+  // Lógica para la cinta de logos infinita, arrastrable y pausable
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const scrollPos = useRef(0);
+  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
+
+  useEffect(() => {
+    const container = marqueeRef.current;
+    if (!container) return;
+    
+    let animationFrameId: number;
+    const scroll = () => {
+      if (!isMarqueePaused) {
+        scrollPos.current += 0.5; // Velocidad de auto-scroll
+        const firstChild = container.firstChild as HTMLElement;
+        if (firstChild) {
+          const maxScroll = firstChild.offsetWidth;
+          // Loop infinito sin saltos
+          if (scrollPos.current >= maxScroll) {
+            scrollPos.current -= maxScroll;
+          }
+        }
+        container.scrollLeft = scrollPos.current;
+      } else {
+        // Si está en pausa (porque el usuario tiene el dedo encima),
+        // sincronizamos nuestra variable con la posición real para que no dé tirones al soltar
+        scrollPos.current = container.scrollLeft;
+      }
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+
+    animationFrameId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isMarqueePaused]);
+
   return (
 
     <div className="bg-gray-50 text-gray-900 font-sans antialiased overflow-x-clip">
@@ -118,76 +152,64 @@ export default function Home() {
 
   <div className="mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    {/* Real Brand Logos - Infinite Marquee */}
-    <div className="relative flex overflow-x-auto lg:overflow-hidden group w-full scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
-      <style>{`
-        @keyframes scroll-logos {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-scroll-logos {
-          display: flex;
-          width: max-content;
-          animation: scroll-logos 50s linear infinite;
-        }
-        .group:hover .animate-scroll-logos {
-          animation-play-state: paused;
-        }
-        /* En móviles y tablets, desactivamos la animación CSS para que el usuario pueda scrollear nativamente con el dedo */
-        @media (max-width: 1024px) {
-          .animate-scroll-logos {
-            animation: none !important;
-          }
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-      `}</style>
-      
+    {/* Real Brand Logos - Infinite JS Marquee (Auto-scroll + Swipeable) */}
+    <div className="relative group w-full overflow-hidden">
       {/* Gradient masks for smooth fade in/out (Disabled on mobile so it doesn't block touch) */}
-      <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
-      <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
+      <div className="absolute top-0 bottom-0 left-0 w-8 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
+      <div className="absolute top-0 bottom-0 right-0 w-8 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
 
-      <div className="animate-scroll-logos opacity-80 mt-4 mb-4 items-center pl-4 lg:pl-0">
-        {Array(4).fill(0).map((_, i) => (
-          <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
-            {/* Edwards Lifesciences */}
-            <img alt="Edwards Lifesciences" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Edwards.png"/>
+      <div 
+        ref={marqueeRef}
+        className="flex overflow-x-auto overflow-y-hidden w-full scrollbar-hide py-4" 
+        style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
+        onMouseEnter={() => setIsMarqueePaused(true)}
+        onMouseLeave={() => setIsMarqueePaused(false)}
+        onTouchStart={() => setIsMarqueePaused(true)}
+        onTouchEnd={() => setIsMarqueePaused(false)}
+      >
+        <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
 
-            {/* Medtronic */}
-            <img alt="Medtronic" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Medtronic.png"/>
+        <div className="flex opacity-80 items-center w-max">
+          {Array(4).fill(0).map((_, i) => (
+            <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
+              {/* Edwards Lifesciences */}
+              <img alt="Edwards Lifesciences" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Edwards.png"/>
 
-            {/* B BRAUN */}
-            <img alt="B Braun" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/bbraun.svg"/>
+              {/* Medtronic */}
+              <img alt="Medtronic" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Medtronic.png"/>
 
-            {/* MicroPort */}
-            <img alt="MicroPort" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/microport.png"/>
+              {/* B BRAUN */}
+              <img alt="B Braun" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/bbraun.svg"/>
 
-            {/* INTEC */}
-            <img alt="INTEC" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/intec.svg"/>
+              {/* MicroPort */}
+              <img alt="MicroPort" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/microport.png"/>
 
-            {/* Santo Domingo Motors */}
-            <img alt="Santo Domingo Motors" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/sdm.svg"/>
+              {/* INTEC */}
+              <img alt="INTEC" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/intec.svg"/>
 
-            {/* POMA */}
-            <img alt="POMA" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/poma.png"/>
+              {/* Santo Domingo Motors */}
+              <img alt="Santo Domingo Motors" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/sdm.svg"/>
 
-            {/* Mallen */}
-            <img alt="Mallen" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/MALLEN.png"/>
+              {/* POMA */}
+              <img alt="POMA" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/poma.png"/>
 
-            {/* Acromax */}
-            <img alt="Acromax" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/acromax.png" />
-            
-            {/* Valiente Fernandez */}
-            <img alt="Valiente Fernandez" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/valiente.png"/>
-            
-            {/* Plasticos Duralon */}
-            <img alt="Plasticos Duralon" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/duralon.png"/>
+              {/* Mallen */}
+              <img alt="Mallen" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/MALLEN.png"/>
 
-            {/* Ingredientes */}
-            <img alt="Ingredientes" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink-0" src="/logos/Ingrediente.png"/>
-          </div>
-        ))}
+              {/* Acromax */}
+              <img alt="Acromax" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/acromax.png" />
+              
+              {/* Valiente Fernandez */}
+              <img alt="Valiente Fernandez" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/valiente.png"/>
+              
+              {/* Plasticos Duralon */}
+              <img alt="Plasticos Duralon" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/duralon.png"/>
+
+              {/* Ingredientes */}
+              <img alt="Ingredientes" className={`w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 ${isMarqueePaused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100'}`} src="/logos/Ingrediente.png"/>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
 
