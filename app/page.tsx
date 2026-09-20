@@ -42,63 +42,85 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
-  // Lógica Ultra Optimizada para la cinta de logos (Sin bugs de React state ni interrupciones táctiles)
+  // Motor GPU Acelerado para la cinta de logos (Cero judder, 100% fluido)
   const marqueeRef = useRef<HTMLDivElement>(null);
-  const scrollPos = useRef(0);
-  const isInteracting = useRef(false);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const pos = useRef(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const isHovered = useRef(false);
 
   useEffect(() => {
-    const container = marqueeRef.current;
-    if (!container) return;
+    const track = marqueeRef.current;
+    if (!track) return;
 
-    // Detectar scroll manual (táctil o rueda) y respetar el "momentum" nativo de iOS
-    const handleScroll = () => {
-      isInteracting.current = true;
-      scrollPos.current = container.scrollLeft;
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-      scrollTimeout.current = setTimeout(() => {
-        isInteracting.current = false;
-      }, 150); // Esperar a que la inercia táctil termine antes de retomar el auto-scroll
+    let groupWidth = (track.firstChild as HTMLElement)?.offsetWidth || 0;
+    const onResize = () => { groupWidth = (track.firstChild as HTMLElement)?.offsetWidth || 0; };
+    window.addEventListener('resize', onResize);
+
+    // Handlers para drag sobre el transform (GPU)
+    const onPointerDown = (e: PointerEvent) => {
+      isDragging.current = true;
+      startX.current = e.clientX;
     };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDragging.current) return;
+      const delta = e.clientX - startX.current;
+      pos.current += delta;
+      startX.current = e.clientX;
+    };
+    const onPointerUpOrLeave = () => {
+      isDragging.current = false;
+    };
+    
+    const onMouseEnter = () => { isHovered.current = true; };
+    const onMouseLeave = () => { isHovered.current = false; isDragging.current = false; };
 
-    const handleEnter = () => { isInteracting.current = true; };
-    const handleLeave = () => { isInteracting.current = false; scrollPos.current = container.scrollLeft; };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    container.addEventListener("mouseenter", handleEnter);
-    container.addEventListener("mouseleave", handleLeave);
-    container.addEventListener("touchstart", handleEnter, { passive: true });
-    container.addEventListener("touchend", handleLeave);
+    // Add listeners to the parent element to capture events more reliably
+    const container = track.parentElement;
+    if (container) {
+      container.addEventListener('pointerdown', onPointerDown);
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUpOrLeave);
+      container.addEventListener('mouseenter', onMouseEnter);
+      container.addEventListener('mouseleave', onMouseLeave);
+    }
 
     let animationFrameId: number;
-    const scroll = () => {
-      if (!isInteracting.current) {
-        // Velocidad rápida y constante
-        const speed = window.innerWidth > 1024 ? 3 : 1.5;
-        scrollPos.current += speed;
-        const firstChild = container.firstChild as HTMLElement;
-        if (firstChild) {
-          const maxScroll = firstChild.offsetWidth;
-          if (scrollPos.current >= maxScroll) {
-            scrollPos.current -= maxScroll;
-          }
-        }
-        container.scrollLeft = scrollPos.current;
+
+    const loop = () => {
+      if (!isDragging.current && !isHovered.current) {
+        // Velocidad suave interpolada por GPU (1.5 px/frame = ~90px/s)
+        // Ya no salta, porque se usan sub-píxeles
+        const speed = window.innerWidth > 1024 ? 1.5 : 1; 
+        pos.current -= speed;
       }
-      animationFrameId = requestAnimationFrame(scroll);
+
+      if (groupWidth > 0) {
+        // Lógica de loop infinito bidireccional
+        if (pos.current <= -groupWidth) {
+          pos.current += groupWidth;
+        } else if (pos.current > 0) {
+          pos.current -= groupWidth;
+        }
+      }
+
+      // El secreto de la fluidez absoluta: transform3d en la tarjeta gráfica
+      track.style.transform = `translate3d(${pos.current}px, 0, 0)`;
+      animationFrameId = requestAnimationFrame(loop);
     };
 
-    animationFrameId = requestAnimationFrame(scroll);
+    animationFrameId = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      container.removeEventListener("scroll", handleScroll);
-      container.removeEventListener("mouseenter", handleEnter);
-      container.removeEventListener("mouseleave", handleLeave);
-      container.removeEventListener("touchstart", handleEnter);
-      container.removeEventListener("touchend", handleLeave);
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      window.removeEventListener('resize', onResize);
+      if (container) {
+        container.removeEventListener('pointerdown', onPointerDown);
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUpOrLeave);
+        container.removeEventListener('mouseenter', onMouseEnter);
+        container.removeEventListener('mouseleave', onMouseLeave);
+      }
     };
   }, []);
 
@@ -183,20 +205,18 @@ export default function Home() {
 
   <div className="mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    {/* Real Brand Logos - Infinite JS Marquee (Auto-scroll + Swipeable) */}
-    <div className="relative group w-full overflow-hidden opacity-80">
+    {/* Real Brand Logos - Infinite JS Marquee (GPU Accelerated + Swipeable) */}
+    <div className="relative group w-full overflow-hidden opacity-80 cursor-grab active:cursor-grabbing select-none" style={{ touchAction: 'pan-y' }}>
       {/* Gradient masks for smooth fade in/out (Disabled on mobile so it doesn't block touch) */}
       <div className="absolute top-0 bottom-0 left-0 w-8 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
       <div className="absolute top-0 bottom-0 right-0 w-8 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
 
-      <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
       <div 
         ref={marqueeRef}
-        className="flex overflow-x-auto overflow-y-hidden w-full scrollbar-hide py-4 items-center" 
-        style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
+        className="flex w-max py-4 items-center will-change-transform" 
       >
         {Array(4).fill(0).map((_, i) => (
-          <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
+          <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap pointer-events-none">
               {/* Edwards Lifesciences */}
               <img alt="Edwards Lifesciences" className="w-36 sm:w-44 md:w-52 lg:w-64 h-14 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 flex-shrink-0 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-active:grayscale-0 group-active:opacity-100" src="/logos/Edwards.png"/>
 
