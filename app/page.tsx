@@ -108,34 +108,39 @@ export default function Home() {
 
 <section className="relative pt-36 pb-24 lg:pt-40 lg:pb-40 overflow-hidden bg-transparent min-h-[90vh] flex flex-col justify-start">
 
-  {/* 3-Panel Diagonal Collage Background */}
+  {/* Fondo Premium - Adaptativo para Móvil y PC */}
     <div className="absolute inset-0 z-0 bg-[#FBFBFD]">
 
-      {/* === RESPONSIVE: Three diagonal parallelogram panels === */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Single Image Split into 3 Diagonal Panels */}
+        {/* Contenedor de la Imagen: 
+            En Móvil: Ocupa el 60% inferior, con un corte diagonal en la parte superior.
+            En PC: Ocupa el 55% derecho, con un corte diagonal en el lado izquierdo.
+        */}
         <div 
-          className="absolute inset-y-0 right-0 w-[100%] lg:w-[55%]"
-          style={{ clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)" }}
+          className="absolute bottom-0 right-0 w-full h-[65%] lg:h-full lg:inset-y-0 lg:w-[55%] [clip-path:polygon(0_12%,100%_0,100%_100%,0_100%)] lg:[clip-path:polygon(15%_0,100%_0,100%_100%,0_100%)]"
         >
           <img src="/laser_cutter.jpg" alt="Laser Cutting" className="absolute inset-0 w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-black/10"></div>
+          {/* Overlay oscuro sutil para que la imagen no queme la pantalla */}
+          <div className="absolute inset-0 bg-black/15"></div>
 
-          {/* Gap 1 */}
+          {/* Líneas separadoras (Efecto de 3 paneles) - Solo visibles en PC */}
           <div 
-            className="absolute -top-10 -bottom-10 w-2 lg:w-4 bg-[#FBFBFD]" 
+            className="hidden lg:block absolute -top-10 -bottom-10 w-4 bg-[#FBFBFD]" 
             style={{ left: "33%", transform: "skewX(-10deg)" }}
           ></div>
-
-          {/* Gap 2 */}
           <div 
-            className="absolute -top-10 -bottom-10 w-2 lg:w-4 bg-[#FBFBFD]" 
+            className="hidden lg:block absolute -top-10 -bottom-10 w-4 bg-[#FBFBFD]" 
             style={{ left: "66%", transform: "skewX(-10deg)" }}
           ></div>
         </div>
 
-        {/* Stronger white fade on left edge to protect text readability */}
-        <div className="absolute inset-y-0 left-0 w-[95%] lg:w-[25%] lg:left-[35%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/95 to-transparent z-10 pointer-events-none"></div>
+        {/* Gradientes protectores para fusionar la imagen con el fondo blanco */}
+        
+        {/* Móvil: Gradiente vertical suave desde arriba para fusionar el borde diagonal */}
+        <div className="block lg:hidden absolute bottom-0 left-0 w-full h-[65%] bg-gradient-to-b from-[#FBFBFD] via-[#FBFBFD]/40 to-transparent z-10 pointer-events-none"></div>
+
+        {/* PC: Gradiente horizontal fuerte en el borde izquierdo */}
+        <div className="hidden lg:block absolute inset-y-0 left-[35%] w-[25%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/95 to-transparent z-10 pointer-events-none"></div>
       </div>
 
     </div>
