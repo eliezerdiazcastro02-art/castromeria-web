@@ -119,27 +119,36 @@ export default function Home() {
   <div className="mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     {/* Real Brand Logos - Infinite Marquee */}
-    <div className="relative flex overflow-hidden group w-full">
+    <div className="relative flex overflow-x-auto lg:overflow-hidden group w-full scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
       <style>{`
         @keyframes scroll-logos {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-          .animate-scroll-logos {
-            display: flex;
-            width: max-content;
-            animation: scroll-logos 50s linear infinite;
-          }
+        .animate-scroll-logos {
+          display: flex;
+          width: max-content;
+          animation: scroll-logos 50s linear infinite;
+        }
         .group:hover .animate-scroll-logos {
           animation-play-state: paused;
         }
+        /* En móviles y tablets, desactivamos la animación CSS para que el usuario pueda scrollear nativamente con el dedo */
+        @media (max-width: 1024px) {
+          .animate-scroll-logos {
+            animation: none !important;
+          }
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
       `}</style>
       
-      {/* Gradient masks for smooth fade in/out */}
-      <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none"></div>
+      {/* Gradient masks for smooth fade in/out (Disabled on mobile so it doesn't block touch) */}
+      <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
+      <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#FBFBFD] to-transparent z-10 pointer-events-none hidden lg:block"></div>
 
-      <div className="animate-scroll-logos opacity-80 mt-4 mb-4 items-center">
+      <div className="animate-scroll-logos opacity-80 mt-4 mb-4 items-center pl-4 lg:pl-0">
         {Array(4).fill(0).map((_, i) => (
           <div key={i} className="flex flex-shrink-0 items-center gap-8 sm:gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-12 whitespace-nowrap">
             {/* Edwards Lifesciences */}
