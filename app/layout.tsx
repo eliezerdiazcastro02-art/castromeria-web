@@ -8,6 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://castromeria.com'),
   title: {
     template: '%s | Castromeria SRL',
     default: 'Castromeria SRL - Diseño Industrial, Fabricación y CNC',
