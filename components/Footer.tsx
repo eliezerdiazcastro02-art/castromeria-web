@@ -2,7 +2,36 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { MapPin, Mail, Phone, FileText, Check, ExternalLink, Copy } from 'lucide-react';
+import { MapPin, Mail, Phone, FileText, Check, ExternalLink, Copy, ChevronDown } from 'lucide-react';
+
+function FooterAccordion({ title, children }: { title: string, children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-gray-200 lg:border-none">
+      {/* Botón para Móvil */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="w-full flex justify-between items-center py-4 lg:hidden focus:outline-none"
+      >
+        <span className="font-medium text-gray-900 text-sm">{title}</span>
+        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {/* Título para PC */}
+      <h4 className="hidden lg:block font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">{title}</h4>
+
+      {/* Contenido Expandible */}
+      <div 
+        className={`overflow-hidden transition-all duration-300 ease-in-out lg:max-h-none lg:opacity-100 ${
+          isOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'
+        }`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -14,20 +43,23 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-50 pt-20 pb-10 border-t border-gray-200 mt-20">
+    <footer className="bg-[#FBFBFD] pt-20 pb-10 border-t border-gray-200 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2 lg:col-span-4">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-0 lg:gap-12 mb-12">
+          
+          {/* Info Principal - Logo y Contacto Directo */}
+          <div className="col-span-1 md:col-span-2 lg:col-span-4 mb-10 lg:mb-0">
             <Link href="/" className="flex items-center gap-3 mb-6 group inline-flex w-fit">
               <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:scale-105">
                 <img src="/logo_secundario.png" alt="Castromeria Insignia" className="w-full h-full object-contain" />
               </div>
               <img src="/castromeria_logo.png" alt="Castromeria" className="h-7 md:h-9 shrink-0 object-contain transition-transform duration-500 group-hover:opacity-80" />
             </Link>
-            <p className="text-gray-500 text-sm max-w-xs leading-relaxed mb-4">
+            <p className="text-gray-500 text-sm max-w-xs leading-relaxed mb-6">
               Diseño, fabricación e ingeniería industrial en República Dominicana.
             </p>
-            <ul className="space-y-4 mt-6">
+            <ul className="space-y-4">
               <li className="flex items-center">
                 <a 
                   href="https://www.google.com/maps/place/Castromeria+srl/@18.4860575,-69.9312117,11z" 
@@ -86,78 +118,85 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-span-1 lg:col-span-2">
-            <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Servicios</h4>
-            <ul className="space-y-4">
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/fabricacion">Fabricación</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/diseno-industrial">Diseño Industrial</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/impresion-3d">Impresión 3D</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/anodizado-teflonado">Anodizado y Teflonado</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/asesoria-tecnica">Asesoría Técnica</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios/facilidades">Facilidades</a></li>
+
+        {/* Accordions (Móvil) / Grid (PC) */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 lg:gap-8 border-t border-gray-200 lg:border-none">
+          
+          <FooterAccordion title="Servicios">
+            <ul className="space-y-3 lg:space-y-4">
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/fabricacion">Fabricación</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/diseno-industrial">Diseño Industrial</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/impresion-3d">Impresión 3D</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/anodizado-teflonado">Anodizado y Teflonado</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/asesoria-tecnica">Asesoría Técnica</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/facilidades">Facilidades</a></li>
             </ul>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Navegación</h4>
-            <ul className="space-y-4">
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/">Inicio</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/nosotros">Nosotros</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/servicios">Servicios</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="/contacto">Contacto</a></li>
+          </FooterAccordion>
+
+          <FooterAccordion title="Navegación">
+            <ul className="space-y-3 lg:space-y-4">
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/">Inicio</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/nosotros">Nosotros</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios">Servicios</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/contacto">Contacto</a></li>
             </ul>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Horario</h4>
-            <ul className="space-y-4">
-              <li className="flex flex-col text-sm text-gray-500">
-                <span className="font-semibold text-gray-900 mb-1">Lun - Vie:</span>
+          </FooterAccordion>
+
+          <FooterAccordion title="Horario">
+            <ul className="space-y-3 lg:space-y-4">
+              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0 border-b border-gray-100 lg:border-none">
+                <span className="font-semibold text-gray-900 lg:mb-1">Lun - Vie</span>
                 <span>9:00 - 18:00</span>
               </li>
-              <li className="flex flex-col text-sm text-gray-500">
-                <span className="font-semibold text-gray-900 mb-1">Sábado:</span>
+              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0 border-b border-gray-100 lg:border-none">
+                <span className="font-semibold text-gray-900 lg:mb-1">Sábado</span>
                 <span>9:00 - 12:00</span>
               </li>
-              <li className="flex flex-col text-sm text-gray-500">
-                <span className="font-semibold text-gray-900 mb-1">Domingo:</span>
+              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0">
+                <span className="font-semibold text-gray-900 lg:mb-1">Domingo</span>
                 <span className="text-red-500 font-medium">Cerrado</span>
               </li>
             </ul>
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            <h4 className="font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">Redes Sociales</h4>
-            <ul className="space-y-4">
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="https://www.tiktok.com/@castromeriasrl" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="https://www.linkedin.com/company/taller-industrial-castromeria-srl/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-              <li><a className="text-gray-500 hover:text-red-600 text-sm transition-colors" href="https://wa.me/18099956395" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </FooterAccordion>
+
+          <FooterAccordion title="Redes Sociales">
+            <ul className="space-y-3 lg:space-y-4">
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.tiktok.com/@castromeriasrl" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.linkedin.com/company/taller-industrial-castromeria-srl/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://wa.me/18099956395" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             </ul>
-          </div>
+          </FooterAccordion>
+
         </div>
-        <div className="border-t border-gray-200 pt-8 flex flex-col xl:flex-row justify-between items-center xl:items-end gap-6">
-          <div className="flex flex-col items-center xl:items-start gap-3">
-            <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Castromeria. Todos los derechos reservados.</p>
-            <div className="flex flex-wrap justify-center xl:justify-start items-center gap-x-3 gap-y-2 text-sm text-gray-500">
-              <Link href="/privacidad" className="hover:text-gray-800 transition-colors hover:underline">Política de Privacidad</Link>
-              <span className="text-gray-300">|</span>
-              <Link href="/terminos" className="hover:text-gray-800 transition-colors hover:underline">Términos de Uso</Link>
-              <span className="text-gray-300">|</span>
-              <Link href="/legal" className="hover:text-gray-800 transition-colors hover:underline">Aviso Legal</Link>
+
+        {/* Legal & Copyright */}
+        <div className="border-t border-gray-200 pt-8 flex flex-col xl:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col items-center xl:items-start gap-4">
+            <div className="flex flex-wrap justify-center xl:justify-start items-center gap-x-4 gap-y-2 text-sm text-gray-500">
+              <Link href="/privacidad" className="hover:text-gray-900 transition-colors">Política de Privacidad</Link>
+              <span className="hidden sm:inline text-gray-300">|</span>
+              <Link href="/terminos" className="hover:text-gray-900 transition-colors">Términos de Uso</Link>
+              <span className="hidden sm:inline text-gray-300">|</span>
+              <Link href="/legal" className="hover:text-gray-900 transition-colors">Aviso Legal</Link>
             </div>
+            <p className="text-gray-400 text-xs sm:text-sm text-center xl:text-left">&copy; {new Date().getFullYear()} Castromeria SRL. Todos los derechos reservados.</p>
           </div>
+          
           <div className="flex items-center gap-6 text-gray-400 shrink-0">
-            <a href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" aria-label="Instagram">
+            <a href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors" aria-label="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                 <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
               </svg>
             </a>
-            <a href="https://www.tiktok.com/@castromeriasrl?_r=1&_t=ZS-97q0PrLz9rI" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" aria-label="TikTok">
+            <a href="https://www.tiktok.com/@castromeriasrl" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors" aria-label="TikTok">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18" height="18" fill="currentColor">
                 <path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/>
               </svg>
             </a>
-            <a href="https://www.linkedin.com/company/taller-industrial-castromeria-srl/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/taller-industrial-castromeria-srl/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors" aria-label="LinkedIn">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                 <rect width="4" height="12" x="2" y="9"/>
