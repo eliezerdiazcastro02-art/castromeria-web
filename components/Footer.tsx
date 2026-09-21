@@ -8,22 +8,22 @@ function FooterAccordion({ title, children }: { title: string, children: React.R
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 lg:border-none">
-      {/* Botón para Móvil */}
+    <div className="border-b border-gray-200 md:border-none">
+      {/* Botón para Móvil (Solo visible < 768px) */}
       <button 
         onClick={() => setIsOpen(!isOpen)} 
-        className="w-full flex justify-between items-center py-4 lg:hidden focus:outline-none"
+        className="w-full flex justify-between items-center py-4 md:hidden focus:outline-none"
       >
         <span className="font-medium text-gray-900 text-sm">{title}</span>
         <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Título para PC */}
-      <h4 className="hidden lg:block font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">{title}</h4>
+      {/* Título para PC y Tablet */}
+      <h4 className="hidden md:block font-bold text-gray-900 mb-6 uppercase text-xs tracking-wider">{title}</h4>
 
-      {/* Contenido Expandible */}
+      {/* Contenido Expandible en Móvil, Siempre visible en Tablet/PC */}
       <div 
-        className={`overflow-hidden transition-all duration-300 ease-in-out lg:max-h-none lg:opacity-100 ${
+        className={`overflow-hidden transition-all duration-300 ease-in-out md:!max-h-none md:!opacity-100 ${
           isOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'
         }`}
       >
@@ -119,11 +119,11 @@ export default function Footer() {
             </ul>
           </div>
 
-        {/* Accordions (Móvil) / Grid (PC) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 lg:gap-8 border-t border-gray-200 lg:border-none">
+        {/* Accordions (Móvil) / Grid (Tablet/PC) */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 md:gap-8 lg:gap-8 border-t border-gray-200 md:border-none">
           
           <FooterAccordion title="Servicios">
-            <ul className="space-y-3 lg:space-y-4">
+            <ul className="space-y-3 md:space-y-4">
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/fabricacion">Fabricación</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/diseno-industrial">Diseño Industrial</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios/impresion-3d">Impresión 3D</a></li>
@@ -134,7 +134,7 @@ export default function Footer() {
           </FooterAccordion>
 
           <FooterAccordion title="Navegación">
-            <ul className="space-y-3 lg:space-y-4">
+            <ul className="space-y-3 md:space-y-4">
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/">Inicio</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/nosotros">Nosotros</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="/servicios">Servicios</a></li>
@@ -143,24 +143,24 @@ export default function Footer() {
           </FooterAccordion>
 
           <FooterAccordion title="Horario">
-            <ul className="space-y-3 lg:space-y-4">
-              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0 border-b border-gray-100 lg:border-none">
-                <span className="font-semibold text-gray-900 lg:mb-1">Lun - Vie</span>
+            <ul className="space-y-3 md:space-y-4">
+              <li className="flex justify-between md:flex-col text-sm text-gray-500 py-1 md:py-0 border-b border-gray-100 md:border-none">
+                <span className="font-semibold text-gray-900 md:mb-1">Lun - Vie</span>
                 <span>9:00 - 18:00</span>
               </li>
-              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0 border-b border-gray-100 lg:border-none">
-                <span className="font-semibold text-gray-900 lg:mb-1">Sábado</span>
+              <li className="flex justify-between md:flex-col text-sm text-gray-500 py-1 md:py-0 border-b border-gray-100 md:border-none">
+                <span className="font-semibold text-gray-900 md:mb-1">Sábado</span>
                 <span>9:00 - 12:00</span>
               </li>
-              <li className="flex justify-between lg:flex-col text-sm text-gray-500 py-1 lg:py-0">
-                <span className="font-semibold text-gray-900 lg:mb-1">Domingo</span>
+              <li className="flex justify-between md:flex-col text-sm text-gray-500 py-1 md:py-0">
+                <span className="font-semibold text-gray-900 md:mb-1">Domingo</span>
                 <span className="text-red-500 font-medium">Cerrado</span>
               </li>
             </ul>
           </FooterAccordion>
 
           <FooterAccordion title="Redes Sociales">
-            <ul className="space-y-3 lg:space-y-4">
+            <ul className="space-y-3 md:space-y-4">
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.instagram.com/castromeria_srl/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.tiktok.com/@castromeriasrl" target="_blank" rel="noopener noreferrer">TikTok</a></li>
               <li><a className="text-gray-500 hover:text-gray-900 text-sm transition-colors block" href="https://www.linkedin.com/company/taller-industrial-castromeria-srl/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
