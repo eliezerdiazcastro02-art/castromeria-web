@@ -169,6 +169,7 @@ export default function Footer() {
           </FooterAccordion>
 
         </div>
+        </div>
 
         {/* Legal & Copyright */}
         <div className="border-t border-gray-200 pt-8 flex flex-col xl:flex-row justify-between items-center gap-6">
