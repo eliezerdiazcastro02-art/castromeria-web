@@ -180,7 +180,7 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
                   layout: { type: "spring", bounce: 0, duration: 0.6 },
                   opacity: { duration: 0.5, delay: idx * 0.05 }
                 }}
-                className={`relative w-full overflow-hidden group cursor-pointer ${isExpanded ? 'h-[360px] md:h-[500px]' : heights}`}
+                className={`relative w-full overflow-hidden group cursor-pointer ${isExpanded ? 'min-h-[420px] md:h-[500px] h-auto' : heights}`}
                 onClick={() => setExpandedIdx(isExpanded ? null : idx)}
               >
                 {/* Background Image with hover zoom */}
@@ -192,12 +192,12 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
                 />
                 
                 {/* Gradient overlay - darkens significantly when expanded for readability */}
-                <div className={`absolute inset-0 transition-all duration-500 ${isExpanded ? 'bg-black/70 backdrop-blur-[2px]' : overlay}`}></div>
+                <div className={`absolute inset-0 transition-all duration-500 ${isExpanded ? 'bg-black/80 md:bg-black/70 backdrop-blur-[2px]' : overlay}`}></div>
                 
                 {/* Content Container */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">
-                  <motion.div layout className="relative z-10 w-full max-w-5xl">
-                    <motion.h3 layout className={`${textSize} font-black tracking-[-0.04em] uppercase text-white drop-shadow-lg leading-[0.95]`}
+                <div className={`absolute inset-0 flex flex-col justify-end p-6 md:p-14 ${isExpanded ? 'pb-10' : ''}`}>
+                  <motion.div layout className="relative z-10 w-full max-w-5xl pr-10 md:pr-16">
+                    <motion.h3 layout className={`${textSize} font-black tracking-tight md:tracking-[-0.04em] uppercase text-white drop-shadow-lg leading-[1.05] md:leading-[0.95] break-words`}
                       style={{ fontStretch: "condensed" }}
                     >
                       {detail.name}
@@ -210,9 +210,9 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
                           animate={{ opacity: 1, height: "auto", y: 0 }}
                           exit={{ opacity: 0, height: 0, y: 10 }}
                           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden mt-4 md:mt-6"
+                          className="overflow-hidden mt-3 md:mt-6"
                         >
-                          <p className="text-gray-200 text-lg md:text-2xl font-medium leading-relaxed max-w-3xl">
+                          <p className="text-gray-200 text-base md:text-2xl font-medium leading-relaxed max-w-3xl">
                             {detail.desc}
                           </p>
                         </motion.div>
@@ -221,10 +221,10 @@ export default function ServiceSubpage({ params }: { params: Promise<{ slug: str
                   </motion.div>
                 </div>
 
-                {/* Subtle arrow on hover */}
-                <div className={`absolute top-1/2 -translate-y-1/2 right-8 md:right-14 transition-all duration-500 z-10 ${isExpanded ? 'rotate-90 opacity-100' : 'opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0'}`}>
-                  <span className={`w-10 h-10 md:w-12 md:h-12 rounded-full backdrop-blur-sm border flex items-center justify-center text-white shadow-lg transition-colors duration-300 ${isExpanded ? 'bg-white text-black border-white' : 'bg-white/20 border-white/30'}`}>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                {/* Subtle arrow on hover (Always visible on mobile to indicate tap) */}
+                <div className={`absolute top-1/2 -translate-y-1/2 right-4 md:right-14 transition-all duration-500 z-10 ${isExpanded ? 'rotate-90 opacity-100' : 'opacity-100 md:opacity-0 translate-x-0 md:translate-x-4 group-hover:opacity-100 group-hover:translate-x-0'}`}>
+                  <span className={`w-8 h-8 md:w-12 md:h-12 rounded-full backdrop-blur-sm border flex items-center justify-center text-white shadow-lg transition-colors duration-300 ${isExpanded ? 'bg-white text-black border-white' : 'bg-white/20 border-white/30'}`}>
+                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                   </span>
                 </div>
               </motion.article>
