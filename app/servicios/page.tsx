@@ -45,7 +45,7 @@ export default function ServiciosPage() {
       slug: "facilidades",
       title: "Facilidades.",
       desc: "Logística, reubicación de maquinaria y organización de planta para operar mejor.",
-      img: "/grua_spider_1.png"
+      img: "/logistica.png"
     }
   ];
 

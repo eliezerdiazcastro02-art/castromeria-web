@@ -78,7 +78,7 @@ const servicesData = {
   "facilidades": {
     title: "Facilidades y Logística",
     heroDesc: "Tu planta organizada, segura y lista para producir.",
-    img: "/grua_spider_1.png",
+    img: "/logistica.png",
     details: [
       { name: "Diseño de layouts de planta y flujos de trabajo", desc: "Optimizamos la distribución de tu planta para reducir tiempos y movimientos innecesarios.", img: "/subservicios/layouts-planta.png" },
       { name: "Servicios de movilidad y reubicación de maquinaria", desc: "Movemos equipos pesados de forma segura con grúas y plataformas especializadas.", img: "/subservicios/reubicacion-maquinaria.png" },
