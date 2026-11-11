@@ -173,9 +173,12 @@ export default function Home() {
 
     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.1, staggerChildren: 0.1 }} className="max-w-3xl">
 
-      <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.2 }} className="text-4xl sm:text-6xl lg:text-[4.75rem] font-bold tracking-tight text-slate-900 mb-6 leading-[1.08]">
+      <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.2 }} className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
 
-        Ingeniería y fabricación que{" "}<br className="hidden sm:block"/>transforman tus ideas.
+        Ingeniería y fabricación{" "}
+        <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-red-600 via-rose-600 to-red-500 bg-clip-text text-transparent">
+          que transforman tus ideas.
+        </span>
 
       </motion.h1>
 
