@@ -182,9 +182,9 @@ export default function Home() {
 
       </motion.h1>
 
-      <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.3 }} className="text-lg lg:text-xl text-slate-500 mb-10 max-w-lg leading-relaxed">
+      <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.3 }} className="text-lg lg:text-xl text-slate-500 mb-10 max-w-xl leading-relaxed">
 
-        Diseño industrial, CNC, impresión 3D y acabados especializados. Todo bajo un mismo techo.
+        Fabricamos mobiliario industrial, estructuras y proyectos a medida en acero inoxidable y acero negro. Integramos ingeniería, diseño industrial, tecnología CNC, impresión 3D y acabados especializados.
 
       </motion.p>
 
