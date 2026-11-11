@@ -14,7 +14,7 @@ export default function ServiciosPage() {
     {
       slug: "fabricacion",
       title: "Fabricación.",
-      desc: "Mecanizado CNC, tornería, corte láser, soldadura certificada y estructuras metálicas. Si se puede fabricar, lo hacemos.",
+      desc: "Mecanizado CNC, tornería, corte láser, soldadura certificada, acero inoxidable y estructuras metálicas. Si se puede fabricar, lo hacemos.",
       img: "/real_welding.jpg"
     },
     {
