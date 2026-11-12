@@ -7,7 +7,6 @@ interface FeaturedCard {
   title: string;
   category: string;
   image: string;
-  buttonText: string;
   href: string;
 }
 
@@ -22,21 +21,18 @@ const featuredProjects: FeaturedCard[] = [
     title: "Mobiliario y Carros en Inox",
     category: "Acero Inox 304/316",
     image: "/subservicios/muebles-inox.png",
-    buttonText: "Ver detalles",
     href: "/servicios/fabricacion",
   },
   {
     title: "Mecanizado CNC de Alta Precisión",
     category: "Tolerancia ±0.01mm",
     image: "/subservicios/mecanizado.png",
-    buttonText: "Ver planos",
     href: "/servicios/fabricacion",
   },
   {
     title: "Corte Láser de Alta Potencia",
     category: "Corte & Soldadura",
     image: "/laser_cutting_sparks.png",
-    buttonText: "Cotizar proyecto",
     href: "https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20corte%20l%C3%A1ser.",
   },
 ];
@@ -91,34 +87,28 @@ export default function AppleShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ ...appleSpring, delay: idx * 0.1 }}
-            className="group relative h-[360px] sm:h-[400px] lg:h-[420px] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5"
           >
-            {/* Background Image with subtle zoom on hover */}
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
-            />
+            <Link
+              href={project.href}
+              target={project.href.startsWith("http") ? "_blank" : undefined}
+              rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="group relative block h-[360px] sm:h-[400px] lg:h-[420px] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5 cursor-pointer active:scale-98 transition-transform"
+            >
+              {/* Background Image with subtle zoom on hover */}
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
 
-            {/* Subtle Gradient Shadow Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
-
-            {/* Centered Frosted Glass Button at the bottom (Exact Apple design) */}
-            <div className="absolute bottom-6 left-0 right-0 flex justify-center px-4 z-10">
-              <Link
-                href={project.href}
-                target={project.href.startsWith("http") ? "_blank" : undefined}
-                rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center justify-center px-7 py-2.5 rounded-full bg-white/25 hover:bg-white text-white hover:text-black backdrop-blur-md border border-white/30 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 shadow-lg active:scale-95"
-              >
-                {project.buttonText}
-              </Link>
-            </div>
+              {/* Subtle Gradient Shadow Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </Link>
           </motion.div>
         ))}
       </div>
 
-      {/* Bottom Row: Ribbon of Smaller Horizontal Cards (Exact Apple Entertainment Dock) */}
+      {/* Bottom Row: Ribbon of Smaller Horizontal Cards (Apple Style Dock) */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
         {miniCatalog.map((item, idx) => (
           <motion.div
@@ -132,22 +122,15 @@ export default function AppleShowcase() {
               href={item.href}
               target={item.href.startsWith("http") ? "_blank" : undefined}
               rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="group relative h-36 sm:h-40 md:h-44 rounded-2xl sm:rounded-[1.25rem] overflow-hidden bg-slate-100/80 hover:bg-slate-100 border border-slate-200/70 p-3 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 block active:scale-98"
+              className="group relative h-36 sm:h-40 md:h-44 rounded-2xl sm:rounded-[1.25rem] overflow-hidden bg-slate-100/80 hover:bg-slate-100 border border-slate-200/70 p-4 flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300 block active:scale-98 cursor-pointer"
             >
               {/* Image centered */}
-              <div className="w-full h-full relative overflow-hidden rounded-xl">
+              <div className="w-full h-full relative overflow-hidden rounded-xl flex items-center justify-center">
                 <img
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                 />
-              </div>
-
-              {/* Floating Pill Label at bottom (Exact Apple design) */}
-              <div className="absolute bottom-3 left-0 right-0 flex justify-center px-2 z-10">
-                <span className="inline-flex items-center justify-center px-3.5 py-1 rounded-full bg-white group-hover:bg-slate-900 text-slate-800 group-hover:text-white text-[11px] sm:text-xs font-semibold shadow-sm border border-slate-200/90 group-hover:border-slate-900 whitespace-nowrap transition-colors duration-300">
-                  {item.title}
-                </span>
               </div>
             </Link>
           </motion.div>
