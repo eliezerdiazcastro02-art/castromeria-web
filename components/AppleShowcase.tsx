@@ -75,14 +75,11 @@ export default function AppleShowcase() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={appleSpring}
-        className="text-center max-w-3xl mx-auto mb-14"
+        className="text-center max-w-3xl mx-auto mb-10 sm:mb-12"
       >
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.05] mb-3">
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.05]">
           Fabricación sin límites.
         </h2>
-        <p className="text-slate-500 text-base sm:text-lg font-normal">
-          Proyectos a medida, piezas CNC y mobiliario en acero inoxidable.
-        </p>
       </motion.div>
 
       {/* Top Row: 3 Large Featured Cards (Apple TV Style) */}
