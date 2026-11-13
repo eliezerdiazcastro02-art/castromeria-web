@@ -131,7 +131,7 @@ export default function AppleShowcase() {
       </div>
 
       {/* Navigation: Step Player dots */}
-      <div className="flex items-center justify-center mt-10">
+      <div className="flex flex-col items-center justify-center mt-10 gap-4">
         <StepPlayer
           steps={totalPages}
           pace={5}
@@ -139,6 +139,13 @@ export default function AppleShowcase() {
           currentStep={page}
           onStepChange={goTo}
         />
+        <Link
+          href="/galeria"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-500 hover:text-red-600 transition-colors"
+        >
+          <span>Explorar galería completa estilo Instagram</span>
+          <span>→</span>
+        </Link>
       </div>
     </section>
   );
