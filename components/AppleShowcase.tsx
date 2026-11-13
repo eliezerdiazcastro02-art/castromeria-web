@@ -1,7 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { StepPlayer } from "./StepPlayer";
 
 interface FeaturedCard {
   title: string;
@@ -28,16 +30,34 @@ const featuredProjects: FeaturedCard[] = [
 ];
 
 export default function AppleShowcase() {
-  const appleSpring = { type: "spring", bounce: 0, duration: 0.8 } as const;
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const total = featuredProjects.length;
+
+  const goTo = useCallback((idx: number) => {
+    setDirection(idx > current ? 1 : -1);
+    setCurrent(idx);
+  }, [current]);
+
+  const prev = () => goTo(current > 0 ? current - 1 : total - 1);
+  const next = () => goTo(current < total - 1 ? current + 1 : 0);
+
+  const project = featuredProjects[current];
+
+  const variants = {
+    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
+    center: { x: 0, opacity: 1, scale: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.95 }),
+  };
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto overflow-hidden">
-      {/* Header (Apple Style) */}
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={appleSpring}
+        transition={{ type: "spring", bounce: 0, duration: 0.8 }}
         className="text-center max-w-3xl mx-auto mb-10 sm:mb-12"
       >
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.05]">
@@ -45,34 +65,71 @@ export default function AppleShowcase() {
         </h2>
       </motion.div>
 
-      {/* 3 Tall IG-style Portrait Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {featuredProjects.map((project, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ ...appleSpring, delay: idx * 0.1 }}
-          >
-            <Link
-              href={project.href}
-              target={project.href.startsWith("http") ? "_blank" : undefined}
-              rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5 cursor-pointer active:scale-[0.98] transition-transform"
+      {/* Carousel Card */}
+      <div className="relative max-w-lg mx-auto">
+        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5">
+          <AnimatePresence initial={false} custom={direction} mode="popLayout">
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+              className="absolute inset-0"
             >
-              {/* Background Image with subtle zoom on hover */}
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
+              <Link
+                href={project.href}
+                target={project.href.startsWith("http") ? "_blank" : undefined}
+                rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="block w-full h-full"
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
 
-              {/* Subtle Gradient Shadow Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-            </Link>
-          </motion.div>
-        ))}
+      {/* Navigation: ‹  •••  › */}
+      <div className="flex items-center justify-center gap-5 mt-8">
+        {/* Prev button */}
+        <button
+          onClick={prev}
+          aria-label="Anterior"
+          className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all duration-200 active:scale-95 shadow-sm"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* Step Player dots */}
+        <StepPlayer
+          steps={total}
+          pace={4}
+          wake={80}
+          currentStep={current}
+          onStepChange={goTo}
+        />
+
+        {/* Next button */}
+        <button
+          onClick={next}
+          aria-label="Siguiente"
+          className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all duration-200 active:scale-95 shadow-sm"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
       </div>
     </section>
   );
