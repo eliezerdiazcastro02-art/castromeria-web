@@ -11,7 +11,8 @@ interface FeaturedCard {
   href: string;
 }
 
-const featuredProjects: FeaturedCard[] = [
+const allProjects: FeaturedCard[] = [
+  /* ── Page 1 ── */
   {
     title: "Mobiliario y Carros en Inox",
     image: "/subservicios/muebles-inox.png",
@@ -27,27 +28,45 @@ const featuredProjects: FeaturedCard[] = [
     image: "/laser_cutting_sparks.png",
     href: "https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20corte%20l%C3%A1ser.",
   },
+  /* ── Page 2 ── */
+  {
+    title: "Ejes y Engranajes de Precisión",
+    image: "/subservicios/ejes-engranajes.png",
+    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20engranajes%20de%20precisi%C3%B3n.",
+  },
+  {
+    title: "Teflonado y Recubrimientos PTFE",
+    image: "/subservicios/teflonado-ptfe.png",
+    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20teflonado%20PTFE.",
+  },
+  {
+    title: "Fixtures y Tooling Industrial",
+    image: "/subservicios/fixtures.png",
+    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20fixtures%20y%20tooling.",
+  },
 ];
 
+const PER_PAGE = 3;
+
 export default function AppleShowcase() {
-  const [current, setCurrent] = useState(0);
+  const totalPages = Math.ceil(allProjects.length / PER_PAGE);
+  const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
-  const total = featuredProjects.length;
 
   const goTo = useCallback((idx: number) => {
-    setDirection(idx > current ? 1 : -1);
-    setCurrent(idx);
-  }, [current]);
+    setDirection(idx > page ? 1 : -1);
+    setPage(idx);
+  }, [page]);
 
-  const prev = () => goTo(current > 0 ? current - 1 : total - 1);
-  const next = () => goTo(current < total - 1 ? current + 1 : 0);
+  const prev = () => goTo(page > 0 ? page - 1 : totalPages - 1);
+  const next = () => goTo(page < totalPages - 1 ? page + 1 : 0);
 
-  const project = featuredProjects[current];
+  const currentCards = allProjects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
 
   const variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.95 }),
+    enter: (dir: number) => ({ x: dir > 0 ? 600 : -600, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? -600 : 600, opacity: 0 }),
   };
 
   return (
@@ -65,42 +84,43 @@ export default function AppleShowcase() {
         </h2>
       </motion.div>
 
-      {/* Carousel Card */}
-      <div className="relative max-w-lg mx-auto">
-        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5">
-          <AnimatePresence initial={false} custom={direction} mode="popLayout">
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-              className="absolute inset-0"
-            >
+      {/* 3-at-a-time Carousel */}
+      <div className="relative">
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", bounce: 0, duration: 0.55 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-5"
+          >
+            {currentCards.map((project, idx) => (
               <Link
+                key={idx}
                 href={project.href}
                 target={project.href.startsWith("http") ? "_blank" : undefined}
                 rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="block w-full h-full"
+                className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5 cursor-pointer active:scale-[0.98] transition-transform"
               >
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
                   draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               </Link>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Navigation: ‹  •••  › */}
-      <div className="flex items-center justify-center gap-5 mt-8">
-        {/* Prev button */}
+      <div className="flex items-center justify-center gap-5 mt-10">
+        {/* Prev */}
         <button
           onClick={prev}
           aria-label="Anterior"
@@ -113,14 +133,14 @@ export default function AppleShowcase() {
 
         {/* Step Player dots */}
         <StepPlayer
-          steps={total}
-          pace={4}
+          steps={totalPages}
+          pace={5}
           wake={80}
-          currentStep={current}
+          currentStep={page}
           onStepChange={goTo}
         />
 
-        {/* Next button */}
+        {/* Next */}
         <button
           onClick={next}
           aria-label="Siguiente"
