@@ -256,7 +256,7 @@ const MOVE = 520;
 const LEAD = 60;
 const RISE = 300;
 
-export const MIN_STEPS = 3;
+export const MIN_STEPS = 2;
 export const MAX_STEPS = 8;
 
 /* where each dot's two edges belong, for a given current step */

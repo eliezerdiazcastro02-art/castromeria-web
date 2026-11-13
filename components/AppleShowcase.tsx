@@ -44,6 +44,22 @@ const allProjects: FeaturedCard[] = [
     image: "/subservicios/fixtures.png",
     href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20fixtures%20y%20tooling.",
   },
+  /* ── Page 3 ── */
+  {
+    title: "Soldadura Certificada TIG/MIG",
+    image: "/real_welding.jpg",
+    href: "/servicios/fabricacion",
+  },
+  {
+    title: "Anodizado Duro y Acabados",
+    image: "/anodizado_parts.png",
+    href: "/servicios/anodizado-teflonado",
+  },
+  {
+    title: "Prototipado e Impresión 3D",
+    image: "/industrial_3d_print.jpg",
+    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20prototipado%20industrial.",
+  },
 ];
 
 const PER_PAGE = 3;
