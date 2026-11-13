@@ -39,7 +39,6 @@ export default function Navbar() {
     { name: 'Inicio', href: '/' },
     { name: 'Nosotros', href: '/nosotros' },
     { name: 'Servicios', href: '/servicios', hasDropdown: true },
-    { name: 'Galería', href: '/galeria' },
     { name: 'Alquileres', href: '/tienda' },
     { name: 'Contáctanos', href: '/contacto' },
   ];
