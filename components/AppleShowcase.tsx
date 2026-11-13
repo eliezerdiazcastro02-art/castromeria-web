@@ -12,37 +12,37 @@ interface FeaturedCard {
 }
 
 const allProjects: FeaturedCard[] = [
-  /* ── Page 1 ── */
+  /* ── Page 1: Exact cards from user reference ── */
+  {
+    title: "Ejes y Engranajes de Precisión",
+    image: "/showcase_card_1_hires.jpg",
+    href: "/servicios/fabricacion",
+  },
+  {
+    title: "Mecanizado CNC de Alta Precisión",
+    image: "/showcase_card_2_2x.jpg",
+    href: "/servicios/fabricacion",
+  },
+  {
+    title: "Fixtures y Tooling Industrial",
+    image: "/showcase_card_3_2x.jpg",
+    href: "/servicios/fabricacion",
+  },
+  /* ── Page 2 ── */
+  {
+    title: "Corte Láser de Alta Potencia",
+    image: "/laser_cutting_sparks.png",
+    href: "https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20corte%20l%C3%A1ser.",
+  },
   {
     title: "Mobiliario y Carros en Inox",
     image: "/subservicios/muebles-inox.png",
     href: "/servicios/fabricacion",
   },
   {
-    title: "Mecanizado CNC de Alta Precisión",
-    image: "/subservicios/mecanizado.png",
-    href: "/servicios/fabricacion",
-  },
-  {
-    title: "Corte Láser de Alta Potencia",
-    image: "/laser_cutting_sparks.png",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20corte%20l%C3%A1ser.",
-  },
-  /* ── Page 2 ── */
-  {
-    title: "Ejes y Engranajes de Precisión",
-    image: "/subservicios/ejes-engranajes.png",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20engranajes%20de%20precisi%C3%B3n.",
-  },
-  {
     title: "Teflonado y Recubrimientos PTFE",
     image: "/subservicios/teflonado-ptfe.png",
     href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20teflonado%20PTFE.",
-  },
-  {
-    title: "Fixtures y Tooling Industrial",
-    image: "/subservicios/fixtures.png",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20fixtures%20y%20tooling.",
   },
   /* ── Page 3 ── */
   {
@@ -119,15 +119,14 @@ export default function AppleShowcase() {
                 href={project.href}
                 target={project.href.startsWith("http") ? "_blank" : undefined}
                 rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-950 shadow-xl border border-black/5 cursor-pointer active:scale-[0.98] transition-transform"
+                className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-900 shadow-md hover:shadow-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition-all duration-300"
               >
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   draggable={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               </Link>
             ))}
           </motion.div>
