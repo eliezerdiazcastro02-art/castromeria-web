@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -314,28 +315,32 @@ export default function GaleriaPage() {
             </button>
           </div>
         ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-          {displayedPosts.map((post) => {
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5">
+          {displayedPosts.map((post, index) => {
             return (
-              <motion.div
+              <div
                 key={post.id}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.35 }}
                 onClick={() => setActiveModalPost(post)}
-                className="group relative aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden bg-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.18)] border border-slate-200/80 cursor-pointer hover:-translate-y-2 active:scale-[0.97] transition-all duration-300 ease-out"
+                style={{
+                  contentVisibility: "auto",
+                  containIntrinsicSize: "0 260px",
+                }}
+                className="group relative aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden bg-slate-100 shadow-xs sm:shadow-[0_4px_20px_rgba(0,0,0,0.05)] sm:hover:shadow-[0_20px_40px_rgba(0,0,0,0.18)] border border-slate-200/80 cursor-pointer sm:hover:-translate-y-1.5 active:scale-[0.97] transition-all duration-200 ease-out will-change-transform select-none"
               >
-                {/* Clean Edge-to-edge Photo */}
-                <img
+                {/* Clean Edge-to-edge Optimized Photo */}
+                <Image
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-300 ease-out"
+                  loading={index < 4 ? "eager" : "lazy"}
+                  priority={index < 4}
+                  unoptimized={post.image.startsWith("blob:") || post.image.startsWith("data:")}
                 />
 
-                {/* Subtle Interactive Expand Cue (Glassmorphism) */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                {/* Subtle Interactive Expand Cue (Glassmorphism) - Hidden on mobile for peak performance */}
+                <div className="hidden sm:flex absolute inset-0 items-center justify-center pointer-events-none">
                   <div className="w-12 h-12 rounded-full bg-black/45 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-xl opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +358,7 @@ export default function GaleriaPage() {
                     </svg>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -538,7 +543,7 @@ export default function GaleriaPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => { setActiveModalPost(null); setShowLightboxDetails(false); }}
-              className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md p-4 sm:p-6 md:p-10 flex items-center justify-center select-none"
+              className="fixed inset-0 z-50 bg-black/92 sm:backdrop-blur-md p-4 sm:p-6 md:p-10 flex items-center justify-center select-none"
             >
               {/* Botón Cerrar (X) arriba a la derecha */}
               <button
@@ -590,6 +595,7 @@ export default function GaleriaPage() {
                   <img
                     src={activeModalPost.image}
                     alt={activeModalPost.title}
+                    decoding="async"
                     className={`w-auto h-auto max-w-full object-contain block mx-auto transition-all duration-300 ${
                       showLightboxDetails
                         ? "max-h-[55vh] sm:max-h-[60vh]"

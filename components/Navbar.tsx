@@ -23,49 +23,74 @@ export default function Navbar({ autoHideOnScroll }: NavbarProps = {}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
+  const isVisibleRef = useRef(true);
   const lastScrollY = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
-  // Detección de scroll para auto-ocultar navbar en Galería (o cuando autoHideOnScroll es true)
+  // Detección optimizada de scroll para auto-ocultar navbar en Galería (throttled con requestAnimationFrame)
   useEffect(() => {
     const shouldAutoHide = autoHideOnScroll ?? pathname?.startsWith('/galeria');
     if (!shouldAutoHide) {
       setIsVisible(true);
+      isVisibleRef.current = true;
       return;
     }
 
+    let rafId: number | null = null;
+
     const handleScroll = () => {
-      // Si el menú móvil o dropdown está abierto, mantener visible
-      if (menuOpen || dropdownOpen) {
-        setIsVisible(true);
-        return;
-      }
+      if (rafId !== null) return;
 
-      const currentScrollY = window.scrollY;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
 
-      // Siempre visible en la parte superior (< 30px)
-      if (currentScrollY < 30) {
-        setIsVisible(true);
+        // Si el menú móvil o dropdown está abierto, mantener visible
+        if (menuOpen || dropdownOpen) {
+          if (!isVisibleRef.current) {
+            setIsVisible(true);
+            isVisibleRef.current = true;
+          }
+          return;
+        }
+
+        const currentScrollY = window.scrollY;
+
+        // Siempre visible en la parte superior (< 30px)
+        if (currentScrollY < 30) {
+          if (!isVisibleRef.current) {
+            setIsVisible(true);
+            isVisibleRef.current = true;
+          }
+          lastScrollY.current = currentScrollY;
+          return;
+        }
+
+        // Al scrollear hacia abajo -> Ocultar suavemente
+        if (currentScrollY > lastScrollY.current + 15 && currentScrollY > 70) {
+          if (isVisibleRef.current) {
+            setIsVisible(false);
+            isVisibleRef.current = false;
+            setDropdownOpen(false);
+          }
+        }
+        // Al scrollear hacia arriba -> Reaparecer suavemente
+        else if (currentScrollY < lastScrollY.current - 15) {
+          if (!isVisibleRef.current) {
+            setIsVisible(true);
+            isVisibleRef.current = true;
+          }
+        }
+
         lastScrollY.current = currentScrollY;
-        return;
-      }
-
-      // Al scrollear hacia abajo -> Ocultar suavemente
-      if (currentScrollY > lastScrollY.current + 10 && currentScrollY > 70) {
-        setIsVisible(false);
-        setDropdownOpen(false);
-      }
-      // Al scrollear hacia arriba -> Reaparecer suavemente
-      else if (currentScrollY < lastScrollY.current - 10) {
-        setIsVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [pathname, autoHideOnScroll, menuOpen, dropdownOpen]);
 
   const handleDropdownEnter = () => {
@@ -92,10 +117,10 @@ export default function Navbar({ autoHideOnScroll }: NavbarProps = {}) {
 
   return (
     <>
-      <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl bg-white/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full px-6 py-3 flex items-center justify-between transition-all duration-500 ease-out ${
+      <nav className={`fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] sm:w-[90%] max-w-5xl bg-white/80 sm:bg-white/60 backdrop-blur-md sm:backdrop-blur-xl border border-white/50 shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between transition-all duration-300 ease-out will-change-transform ${
         isVisible
           ? 'translate-y-0 opacity-100 pointer-events-auto'
-          : '-translate-y-28 opacity-0 pointer-events-none'
+          : '-translate-y-24 sm:-translate-y-28 opacity-0 pointer-events-none'
       }`}>
         <Link href="/" onClick={() => window.scrollTo(0,0)} className="flex items-center gap-2 md:gap-3 group relative z-10">
           <div className="w-9 h-9 md:w-11 md:h-11 shrink-0 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-gray-100 flex items-center justify-center p-1 transition-transform duration-500 group-hover:scale-105">
