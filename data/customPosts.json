@@ -1,0 +1,67 @@
+[
+  {
+    "id": "custom-1794638125507",
+    "title": "Teflonado (PTFE)",
+    "category": "inox",
+    "categoryLabel": "Mobiliario Inox",
+    "image": "/gallery_uploads/1794638125505-Teflonado__PTFE_.png",
+    "material": "",
+    "tolerancia": "",
+    "description": "Fabricación a medida realizada en taller Castromeria.",
+    "likes": 1,
+    "featured": true,
+    "createdAt": "2026-11-14T06:35:25.507Z"
+  },
+  {
+    "id": "custom-1794638116148",
+    "title": "Reducción fricción",
+    "category": "laser",
+    "categoryLabel": "Corte Láser",
+    "image": "/gallery_uploads/1794638116146-Reducci_n_fricci_n.png",
+    "material": "",
+    "tolerancia": "",
+    "description": "Fabricación a medida realizada en taller Castromeria.",
+    "likes": 1,
+    "featured": true,
+    "createdAt": "2026-11-14T06:35:16.148Z"
+  },
+  {
+    "id": "custom-1794638105548",
+    "title": "Protección corrosión",
+    "category": "soldadura",
+    "categoryLabel": "Soldadura Certificada",
+    "image": "/gallery_uploads/1794638105545-Protecci_n_corrosi_n.png",
+    "material": "",
+    "tolerancia": "",
+    "description": "Fabricación a medida realizada en taller Castromeria.",
+    "likes": 1,
+    "featured": true,
+    "createdAt": "2026-11-14T06:35:05.548Z"
+  },
+  {
+    "id": "custom-1794638092988",
+    "title": "Moldes maestros",
+    "category": "cnc",
+    "categoryLabel": "Mecanizado CNC",
+    "image": "/gallery_uploads/1794638092964-Moldes_maestros.png",
+    "material": "",
+    "tolerancia": "",
+    "description": "Fabricación a medida realizada en taller Castromeria.",
+    "likes": 1,
+    "featured": true,
+    "createdAt": "2026-11-14T06:34:52.988Z"
+  },
+  {
+    "id": "custom-1794637997851",
+    "title": "Acabados estéticos",
+    "category": "cnc",
+    "categoryLabel": "Mecanizado CNC",
+    "image": "/gallery_uploads/1794637997849-Acabados_est_ticos.png",
+    "material": "",
+    "tolerancia": "",
+    "description": "Fabricación a medida realizada en taller Castromeria.",
+    "likes": 1,
+    "featured": true,
+    "createdAt": "2026-11-14T06:33:17.851Z"
+  }
+]

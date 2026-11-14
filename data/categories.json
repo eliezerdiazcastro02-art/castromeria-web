@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cnc",
+    "name": "Mecanizado CNC"
+  },
+  {
+    "id": "laser",
+    "name": "Corte Láser"
+  },
+  {
+    "id": "inox",
+    "name": "Mobiliario Inox"
+  },
+  {
+    "id": "soldadura",
+    "name": "Soldadura Certificada"
+  },
+  {
+    "id": "taller",
+    "name": "Prototipado 3D"
+  }
+]

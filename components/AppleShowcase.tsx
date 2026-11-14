@@ -1,85 +1,134 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { StepPlayer } from "./StepPlayer";
+import { initialGalleryPosts } from "@/data/galleryPosts";
 
 interface FeaturedCard {
+  id: string;
   title: string;
+  categoryId: string;
   image: string;
   href: string;
 }
 
-const allProjects: FeaturedCard[] = [
-  /* ── Page 1: Exact cards from user reference ── */
-  {
-    title: "Ejes y Engranajes de Precisión",
-    image: "/showcase_card_1_hires.jpg",
-    href: "/servicios/fabricacion",
-  },
-  {
-    title: "Mecanizado CNC de Alta Precisión",
-    image: "/showcase_card_2_2x.jpg",
-    href: "/servicios/fabricacion",
-  },
-  {
-    title: "Fixtures y Tooling Industrial",
-    image: "/showcase_card_3_2x.jpg",
-    href: "/servicios/fabricacion",
-  },
-  /* ── Page 2 ── */
-  {
-    title: "Corte Láser de Alta Potencia",
-    image: "/laser_cutting_sparks.png",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20corte%20l%C3%A1ser.",
-  },
-  {
-    title: "Mobiliario y Carros en Inox",
-    image: "/subservicios/muebles-inox.png",
-    href: "/servicios/fabricacion",
-  },
-  {
-    title: "Teflonado y Recubrimientos PTFE",
-    image: "/subservicios/teflonado-ptfe.png",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20teflonado%20PTFE.",
-  },
-  /* ── Page 3 ── */
-  {
-    title: "Soldadura Certificada TIG/MIG",
-    image: "/real_welding.jpg",
-    href: "/servicios/fabricacion",
-  },
-  {
-    title: "Anodizado Duro y Acabados",
-    image: "/anodizado_parts.png",
-    href: "/servicios/anodizado-teflonado",
-  },
-  {
-    title: "Prototipado e Impresión 3D",
-    image: "/industrial_3d_print.jpg",
-    href: "https://wa.me/18099956395?text=Hola,%20me%20interesa%20cotizar%20prototipado%20industrial.",
-  },
-];
-
-const PER_PAGE = 3;
+const defaultProjects: FeaturedCard[] = initialGalleryPosts.map((post) => ({
+  id: post.id,
+  title: post.title,
+  categoryId: post.category,
+  image: post.image,
+  href: "/galeria",
+}));
 
 export default function AppleShowcase() {
-  const totalPages = Math.ceil(allProjects.length / PER_PAGE);
-  const [page, setPage] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [projects, setProjects] = useState<FeaturedCard[]>(defaultProjects);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const goTo = useCallback((idx: number) => {
-    setDirection(idx > page ? 1 : -1);
-    setPage(idx);
-  }, [page]);
+  const loadLatestPosts = () => {
+    fetch("/api/admin/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.posts) && data.posts.length > 0) {
+          const cards: FeaturedCard[] = data.posts.map((p: any) => ({
+            id: p.id,
+            title: p.title || "Pieza Fabricada",
+            categoryId: p.category || "general",
+            image: p.image,
+            href: "/galeria",
+          }));
+          setProjects(cards);
+        }
+      })
+      .catch((err) => console.warn("Could not load latest gallery posts for showcase", err));
+  };
 
-  const currentCards = allProjects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  useEffect(() => {
+    loadLatestPosts();
 
-  const variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 600 : -600, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -600 : 600, opacity: 0 }),
+    // Actualiza automáticamente si se suben fotos en otra pestaña
+    const handleFocus = () => loadLatestPosts();
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
+
+  const handlePrev = () => {
+    if (projects.length === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const handleNext = () => {
+    if (projects.length === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
+  };
+
+  // Helper to calculate circular distance and visual styles for 3D coverflow
+  const getCardProps = (index: number) => {
+    const total = projects.length;
+    if (total === 0) {
+      return { x: "0%", scale: 1, zIndex: 0, opacity: 0, rotateY: 0, isCenter: false, isVisible: false };
+    }
+    let diff = index - currentIndex;
+
+    // Wrap around to keep cards seamlessly positioned
+    while (diff > total / 2) diff -= total;
+    while (diff < -total / 2) diff += total;
+
+    const isCenter = diff === 0;
+
+    let x = "0%";
+    let scale = 1;
+    let zIndex = 30;
+    let opacity = 1;
+    let rotateY = 0;
+
+    if (diff === 0) {
+      x = "0%";
+      scale = 1;
+      zIndex = 30;
+      opacity = 1;
+      rotateY = 0;
+    } else if (diff === 1) {
+      x = "58%";
+      scale = 0.86;
+      zIndex = 20;
+      opacity = 0.9;
+      rotateY = -6;
+    } else if (diff === -1) {
+      x = "-58%";
+      scale = 0.86;
+      zIndex = 20;
+      opacity = 0.9;
+      rotateY = 6;
+    } else if (diff === 2) {
+      x = "108%";
+      scale = 0.72;
+      zIndex = 10;
+      opacity = 0.55;
+      rotateY = -12;
+    } else if (diff === -2) {
+      x = "-108%";
+      scale = 0.72;
+      zIndex = 10;
+      opacity = 0.55;
+      rotateY = 12;
+    } else {
+      x = diff > 0 ? "150%" : "-150%";
+      scale = 0.55;
+      zIndex = 0;
+      opacity = 0;
+      rotateY = 0;
+    }
+
+    return {
+      x,
+      scale,
+      zIndex,
+      opacity,
+      rotateY,
+      isCenter,
+      isVisible: Math.abs(diff) <= 2,
+    };
   };
 
   return (
@@ -90,55 +139,122 @@ export default function AppleShowcase() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ type: "spring", bounce: 0, duration: 0.8 }}
-        className="text-center max-w-3xl mx-auto mb-10 sm:mb-12"
+        className="text-center max-w-3xl mx-auto mb-6 sm:mb-8"
       >
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.05]">
-          Fabricación sin límites.
+          Nuestros Trabajos
         </h2>
       </motion.div>
 
-      {/* 3-at-a-time Carousel */}
-      <div className="relative">
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={page}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ type: "spring", bounce: 0, duration: 0.55 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-5"
-          >
-            {currentCards.map((project, idx) => (
-              <Link
-                key={idx}
-                href={project.href}
-                target={project.href.startsWith("http") ? "_blank" : undefined}
-                rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-900 shadow-md hover:shadow-2xl border border-slate-200/80 cursor-pointer active:scale-[0.98] transition-all duration-300"
-              >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  draggable={false}
-                />
-              </Link>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+      {/* Link to full gallery */}
+      <div className="flex items-center justify-center mb-10 sm:mb-14">
+        <Link
+          href="/galeria"
+          className="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 border border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white inline-flex items-center gap-1.5 shadow-2xs hover:shadow-sm active:scale-95 cursor-pointer"
+        >
+          <span>Ver más</span>
+          <span>→</span>
+        </Link>
       </div>
 
-      {/* Navigation: Step Player dots */}
-      <div className="flex flex-col items-center justify-center mt-10">
-        <StepPlayer
-          steps={totalPages}
-          pace={5}
-          wake={80}
-          currentStep={page}
-          onStepChange={goTo}
-        />
+      {/* 3D Coverflow Carousel */}
+      <div 
+        className="relative w-full h-[420px] sm:h-[500px] md:h-[560px] flex items-center justify-center"
+        style={{ perspective: "1200px" }}
+      >
+        {projects.map((project, idx) => {
+          const { x, scale, zIndex, opacity, rotateY, isCenter, isVisible } = getCardProps(idx);
+
+          return (
+            <motion.div
+              key={project.id || idx}
+              animate={{
+                x,
+                scale,
+                zIndex,
+                opacity,
+                rotateY,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 280,
+                damping: 28,
+              }}
+              onClick={() => {
+                if (!isCenter) setCurrentIndex(idx);
+              }}
+              style={{
+                transformStyle: "preserve-3d",
+              }}
+              className={`absolute w-[250px] sm:w-[320px] md:w-[380px] aspect-[3/4] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden select-none transition-shadow duration-300 ${
+                isCenter
+                  ? "shadow-[0_25px_60px_-12px_rgba(0,0,0,0.35)] ring-1 ring-black/5 cursor-pointer"
+                  : "shadow-[0_15px_35px_-8px_rgba(0,0,0,0.2)] cursor-pointer hover:opacity-100"
+              } ${!isVisible ? "pointer-events-none" : ""}`}
+            >
+              {isCenter ? (
+                <Link href={project.href} className="block w-full h-full relative group">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    draggable={false}
+                  />
+                  {/* Subtle glass reflection effect on center card */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                </Link>
+              ) : (
+                <div className="w-full h-full relative">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                  />
+                  {/* Slight dark overlay on background cards for depth */}
+                  <div className="absolute inset-0 bg-black/15 transition-opacity" />
+                </div>
+              )}
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Navigation Arrows: Left and Right Circular Buttons */}
+      <div className="flex items-center justify-center gap-4 mt-8 sm:mt-12">
+        <button
+          onClick={handlePrev}
+          className="w-12 h-12 rounded-full border border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-900 text-slate-800 hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
+          aria-label="Anterior"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+
+        <button
+          onClick={handleNext}
+          className="w-12 h-12 rounded-full border border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-900 text-slate-800 hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
+          aria-label="Siguiente"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
       </div>
     </section>
   );

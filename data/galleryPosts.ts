@@ -1,7 +1,7 @@
 export interface GalleryPost {
   id: string;
   title: string;
-  category: "cnc" | "inox" | "laser" | "soldadura" | "taller";
+  category: string;
   categoryLabel: string;
   image: string;
   material: string;

@@ -131,18 +131,18 @@ export default function Home() {
 
 <Navbar />
 
-<section className="relative pt-36 pb-24 lg:pt-40 lg:pb-40 overflow-hidden bg-transparent min-h-[90vh] flex flex-col justify-start">
+<section className="relative pt-24 pb-12 sm:pt-28 sm:pb-14 lg:pt-32 lg:pb-16 overflow-hidden bg-transparent min-h-[82vh] lg:min-h-[86vh] flex flex-col justify-center">
 
   {/* Fondo Premium - Adaptativo para Móvil y PC */}
     <div className="absolute inset-0 z-0 bg-[#FBFBFD]">
 
       <div className="absolute inset-0 overflow-hidden">
         {/* Contenedor de la Imagen: 
-            En Móvil: Ocupa el 60% inferior, con un corte diagonal en la parte superior.
-            En PC: Ocupa el 55% derecho, con un corte diagonal en el lado izquierdo.
+            En Móvil: Ocupa el 55% inferior, con un corte diagonal en la parte superior.
+            En PC: Ocupa el 48% derecho, dejando despejado el lado izquierdo para el texto.
         */}
         <div 
-          className="absolute bottom-0 right-0 w-full h-[65%] lg:h-full lg:inset-y-0 lg:w-[55%] [clip-path:polygon(0_12%,100%_0,100%_100%,0_100%)] lg:[clip-path:polygon(15%_0,100%_0,100%_100%,0_100%)]"
+          className="absolute bottom-0 right-0 w-full h-[55%] lg:h-full lg:inset-y-0 lg:w-[48%] xl:w-[46%] [clip-path:polygon(0_12%,100%_0,100%_100%,0_100%)] lg:[clip-path:polygon(16%_0,100%_0,100%_100%,0_100%)]"
         >
           <img src="/laser_cutter.jpg" alt="Laser Cutting" className="absolute inset-0 w-full h-full object-cover object-center" />
           {/* Overlay oscuro sutil para que la imagen no queme la pantalla */}
@@ -162,40 +162,40 @@ export default function Home() {
         {/* Gradientes protectores para fusionar la imagen con el fondo blanco */}
         
         {/* Móvil: Gradiente vertical suave desde arriba para fusionar el borde diagonal */}
-        <div className="block lg:hidden absolute bottom-0 left-0 w-full h-[65%] bg-gradient-to-b from-[#FBFBFD] via-[#FBFBFD]/40 to-transparent z-10 pointer-events-none"></div>
+        <div className="block lg:hidden absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-b from-[#FBFBFD] via-[#FBFBFD]/40 to-transparent z-10 pointer-events-none"></div>
 
-        {/* PC: Gradiente horizontal fuerte en el borde izquierdo */}
-        <div className="hidden lg:block absolute inset-y-0 left-[35%] w-[25%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/95 to-transparent z-10 pointer-events-none"></div>
+        {/* PC: Gradiente horizontal para garantizar que el texto tenga fondo 100% nítido */}
+        <div className="hidden lg:block absolute inset-y-0 right-[44%] w-[22%] bg-gradient-to-r from-[#FBFBFD] via-[#FBFBFD]/90 to-transparent z-10 pointer-events-none"></div>
       </div>
 
     </div>
 
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pb-[100px] lg:pb-0">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pb-6 lg:pb-0">
 
-    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.1, staggerChildren: 0.1 }} className="max-w-3xl">
+    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.1, staggerChildren: 0.1 }} className="max-w-xl lg:max-w-[540px] xl:max-w-[580px]">
 
-      <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.2 }} className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+      <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.2 }} className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-black tracking-tight text-slate-900 mb-4 sm:mb-5 leading-[1.1]">
 
         Ingeniería y fabricación{" "}
-        <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-red-600 via-rose-600 to-red-500 bg-clip-text text-transparent">
+        <span className="block mt-1 sm:mt-1.5 bg-gradient-to-r from-red-600 via-rose-600 to-red-500 bg-clip-text text-transparent">
           que transforman tus ideas.
         </span>
 
       </motion.h1>
 
-      <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.3 }} className="text-lg lg:text-xl text-slate-500 mb-10 max-w-xl leading-relaxed">
+      <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.3 }} className="text-sm sm:text-base lg:text-[17px] text-slate-600 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal">
 
         Fabricamos mobiliario industrial, estructuras y proyectos a medida en acero inoxidable y acero negro. Integramos ingeniería, diseño industrial, tecnología CNC, impresión 3D y acabados especializados.
 
       </motion.p>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.4 }} className="flex flex-col sm:flex-row gap-4">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.4 }} className="flex flex-row items-center gap-3 sm:gap-4 flex-wrap">
 
-        <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", bounce: 0, duration: 0.4 }} className="inline-flex items-center justify-center px-8 py-4 rounded-full text-white bg-red-600 hover:bg-red-700 transition-all shadow-[0_8px_20px_rgba(220,38,38,0.3)] font-semibold text-lg" href="https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto." target="_blank" rel="noopener noreferrer">
+        <motion.a whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", bounce: 0, duration: 0.3 }} className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-white bg-red-600 hover:bg-red-700 transition-all shadow-[0_6px_20px_rgba(220,38,38,0.28)] hover:shadow-[0_8px_25px_rgba(220,38,38,0.38)] font-semibold text-sm sm:text-base cursor-pointer" href="https://wa.me/18099956395?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto." target="_blank" rel="noopener noreferrer">
           Cotizar Proyecto
         </motion.a>
 
-        <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", bounce: 0, duration: 0.4 }} className="inline-flex items-center justify-center px-8 py-4 rounded-full text-slate-900 bg-white/80 backdrop-blur-md hover:bg-white transition-all shadow-lg font-semibold text-lg border border-gray-100" href="/servicios">
+        <motion.a whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", bounce: 0, duration: 0.3 }} className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-slate-800 bg-white/90 backdrop-blur-md hover:bg-white transition-all shadow-sm hover:shadow-md font-semibold text-sm sm:text-base border border-slate-200/80 cursor-pointer" href="/servicios">
           Ver Servicios
         </motion.a>
 
@@ -207,7 +207,7 @@ export default function Home() {
 
 </section>
 
-  <div className="mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="mt-12 sm:mt-16 lg:mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     {/* Real Brand Logos - Infinite JS Marquee (GPU Accelerated + Swipeable) */}
     <div className="relative group w-full overflow-hidden opacity-80 cursor-grab active:cursor-grabbing select-none" style={{ touchAction: 'pan-y' }}>
@@ -476,7 +476,7 @@ export default function Home() {
             <div className="absolute left-7 top-7 w-[300px] h-[300px] pointer-events-none z-0 block lg:hidden">
               <svg width="100%" height="100%" style={{ overflow: 'visible' }}>
                 <motion.path
-                  d="M 0 0 L 0 180 Q 0 200 20 200 L 500 200"
+                  d="M 0 0 L 0 180 Q 0 200 20 200 L 800 200"
                   fill="none" stroke="#ef4444" strokeWidth={4} strokeLinecap="round"
                   initial={{ pathLength: 0.15, pathOffset: 0, opacity: 0 }}
                   animate={{ pathOffset: [0, 1], opacity: [0, 1, 1, 0] }}
@@ -487,16 +487,17 @@ export default function Home() {
             </div>
 
             {/* UNIFIED CONTINUOUS RED LINE - DESKTOP ONLY */}
-            <div className="absolute left-7 top-7 w-[1200px] h-[1500px] pointer-events-none z-0 hidden lg:block">
+            <div className="absolute left-7 top-7 w-[2500px] h-[300px] pointer-events-none z-0 hidden lg:block">
               <svg width="100%" height="100%" style={{ overflow: 'visible' }}>
-                {/* Animated red comet */}
+                {/* Trazo 100% transparente sin líneas estáticas fijas */}
+                {/* Cometa láser animado: se va en línea recta hacia la derecha y se desvanece suavemente sin puntos finales */}
                 <motion.path
-                  d="M 0 0 L 0 180 Q 0 200 20 200 L 1100 200 Q 1120 200 1120 220 L 1120 800 C 1120 1100, 300 1100, 300 1200"
+                  d="M 0 0 L 0 180 Q 0 200 20 200 L 2500 200"
                   fill="none" stroke="#ef4444" strokeWidth={4} strokeLinecap="round"
-                  initial={{ pathLength: 0.05, pathOffset: 0, opacity: 0 }}
+                  initial={{ pathLength: 0.12, pathOffset: 0, opacity: 0 }}
                   animate={{ pathOffset: [0, 1], opacity: [0, 1, 1, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear", times: [0, 0.05, 0.95, 1] }}
-                  style={{ filter: "drop-shadow(0px 0px 8px rgba(239,68,68,0.9))" }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: "linear", times: [0, 0.08, 0.92, 1] }}
+                  style={{ filter: "drop-shadow(0px 0px 8px rgba(239,68,68,0.95))" }}
                 />
               </svg>
             </div>
@@ -621,8 +622,6 @@ export default function Home() {
 </div>
 
 </section>
-
-  {/* </div> End unified line wrapper */}
 
 <Footer />
 
